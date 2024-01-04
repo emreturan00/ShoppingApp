@@ -2,6 +2,9 @@ package com.example.shoppingapp.models;
 
 // Product.java
 public class Product {
+
+    // Assuming this is the auto-incrementing primary key
+    private int productId;
     private String Name;
     private String type;
     private int stock;
@@ -17,6 +20,13 @@ public class Product {
         this.price = price;
         this.imageLocation = imageLocation;
         this.threshold = threshold;
+    }
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getName() {
@@ -59,13 +69,6 @@ public class Product {
         this.threshold = threshold;
     }
 
-    public String getProductName() {
-        return Name;
-    }
-
-    public void setProductName(String productName) {
-        this.Name = productName;
-    }
 
     public double getPrice() {
         return price;
