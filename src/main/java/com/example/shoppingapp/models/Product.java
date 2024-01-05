@@ -28,15 +28,16 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, String type, int stock, double price,
-                   String imageLocation, int threshold) {
-        Name = name;
+    public Product(int productId, String name, String type, int stock, double price, String imageLocation, int threshold) {
+        this.productId = productId;
+        this.Name = name;
         this.type = type;
         this.stock = stock;
         this.price = price;
         this.imageLocation = imageLocation;
         this.threshold = threshold;
     }
+
     public int getProductId() {
         return productId;
     }

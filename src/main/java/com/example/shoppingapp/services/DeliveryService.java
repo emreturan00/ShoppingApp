@@ -56,7 +56,6 @@ public class DeliveryService {
         return order;
     }
 
-    // Helper method to map a ResultSet to a list of Product objects
     private List<Product> mapResultSetToProductList(ResultSet resultSet) throws SQLException {
         List<Product> products = new ArrayList<>();
 
@@ -69,7 +68,6 @@ public class DeliveryService {
         return products;
     }
 
-    // Helper method to map a ResultSet to a Product object
     private Product mapResultSetToProduct(ResultSet resultSet) throws SQLException {
         int productId = resultSet.getInt("productId");
         String productName = resultSet.getString("productName");
@@ -80,7 +78,7 @@ public class DeliveryService {
         int threshold = resultSet.getInt("threshold");
 
         // Create a Product object with the retrieved details
-        return new Product(productName, productType, stock, price, imageLocation, threshold);
+        return new Product(productId, productName, productType,stock, price, imageLocation, threshold);
     }
 
 

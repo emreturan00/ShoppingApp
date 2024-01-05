@@ -24,6 +24,7 @@ public class ProductService {
                  ResultSet resultSet = preparedStatement.executeQuery()) {
 
                 while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
                     String name = resultSet.getString("Name");
                     String type = resultSet.getString("type");
                     int stock = resultSet.getInt("stock");
@@ -31,7 +32,7 @@ public class ProductService {
                     String imageLocation = resultSet.getString("imageLocation");
                     int threshold = resultSet.getInt("threshold");
 
-                    Product product = new Product(name, type, stock, price, imageLocation, threshold);
+                    Product product = new Product(id,name, type, stock, price, imageLocation, threshold);
                     availableProducts.add(product);
                 }
             }

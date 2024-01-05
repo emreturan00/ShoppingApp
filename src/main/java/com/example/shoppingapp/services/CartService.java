@@ -57,17 +57,19 @@ public class CartService {
         List<CartItem> cartItems = new ArrayList<>();
 
         try (Connection connection = databaseAdapter.getConnection()) {
-            String query = "SELECT c.quantity, p.* FROM cartinfo c JOIN productinfo p ON c.product_id = p.product_id WHERE c.user_id = ?";
+            String query = "SELECT c.user_id, c.product_id, c.quantity, p.* FROM cartinfo c JOIN productinfo p ON c.product_id = p.id WHERE c.user_id = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, userId);
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
+                        int user_id = resultSet.getInt("user_id");
+                        int product_id = resultSet.getInt("product_id");
                         int quantity = resultSet.getInt("quantity");
 
                         // Create a new CartItem with the retrieved quantity and Product information
                         Product product = new Product();
-                        product.setProductId(resultSet.getInt("product_id"));
+                        product.setProductId(product_id);
                         product.setName(resultSet.getString("name"));
                         product.setType(resultSet.getString("type"));
                         product.setStock(resultSet.getInt("stock"));
@@ -76,7 +78,7 @@ public class CartService {
                         product.setThreshold(resultSet.getInt("threshold"));
 
                         CartItem cartItem = new CartItem();
-                        cartItem.setUserId(userId);
+                        cartItem.setUserId(user_id);
                         cartItem.setProduct(product);
                         cartItem.setQuantity(quantity);
 
@@ -90,6 +92,7 @@ public class CartService {
 
         return cartItems;
     }
+
 
     public void updateCartItemQuantity(int userId, int productId, int newQuantity) {
         try (Connection connection = databaseAdapter.getConnection()) {
@@ -135,7 +138,7 @@ public class CartService {
                 int orderId = moveItemsToOrders(userId, connection);
 
                 // Update product stock based on the cart
-                updateProductStock(userId, connection);
+//                updateProductStock(userId, connection);
 
                 // Clear the user's cart
                 clearUserCart(userId, connection);
@@ -154,7 +157,7 @@ public class CartService {
 
     private int moveItemsToOrders(int userId, Connection connection) throws SQLException {
         // Insert items from the cart into the orders table
-        String insertOrderQuery = "INSERT INTO orderinfo (userId, orderTime, total_cost) VALUES (?, CURRENT_TIMESTAMP, ?)";
+        String insertOrderQuery = "INSERT INTO orderinfo (userID, orderTime, totalcost) VALUES (?, CURRENT_TIMESTAMP, ?)";
         try (PreparedStatement insertOrderStatement = connection.prepareStatement(insertOrderQuery, Statement.RETURN_GENERATED_KEYS)) {
             insertOrderStatement.setInt(1, userId);
 
@@ -178,7 +181,7 @@ public class CartService {
 
     private double calculateTotalCost(int userId, Connection connection) throws SQLException {
         // Calculate total cost based on the cart items
-        String calculateTotalCostQuery = "SELECT SUM(p.price * c.quantity) AS total_cost FROM cartinfo c JOIN productinfo p ON c.product_id = p.product_id WHERE c.user_id = ?";
+        String calculateTotalCostQuery = "SELECT SUM(p.price * c.quantity) AS total_cost FROM cartinfo c JOIN productinfo p ON c.product_id = p.id WHERE c.user_id = ?";
         try (PreparedStatement calculateTotalCostStatement = connection.prepareStatement(calculateTotalCostQuery)) {
             calculateTotalCostStatement.setInt(1, userId);
 
@@ -193,16 +196,16 @@ public class CartService {
         }
     }
 
-    private void updateProductStock(int userId, Connection connection) throws SQLException {
-        // Update product stock based on the cart
-        String updateStockQuery = "UPDATE productinfo SET stock = stock - c.quantity FROM cartinfo c WHERE c.user_id = ? AND c.product_id = product.product_id";
-        try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockQuery)) {
-            updateStockStatement.setInt(1, userId);
-
-            // Execute the update statement
-            updateStockStatement.executeUpdate();
-        }
-    }
+//    private void updateProductStock(int userId, Connection connection) throws SQLException {
+//        // Update product stock based on the cart
+//        String updateStockQuery = "UPDATE productinfo SET stock = stock - c.quantity FROM cartinfo c WHERE c.user_id = ? AND c.product_id = product.product_id";
+//        try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockQuery)) {
+//            updateStockStatement.setInt(1, userId);
+//
+//            // Execute the update statement
+//            updateStockStatement.executeUpdate();
+//        }
+//    }
 
     private void clearUserCart(int userId, Connection connection) throws SQLException {
         // Clear the user's cart
