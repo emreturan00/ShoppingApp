@@ -12,6 +12,22 @@ public class Product {
     private String imageLocation;
     private int threshold;
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", Name='" + Name + '\'' +
+                ", type='" + type + '\'' +
+                ", stock=" + stock +
+                ", price=" + price +
+                ", imageLocation='" + imageLocation + '\'' +
+                ", threshold=" + threshold +
+                '}';
+    }
+
+    public Product() {
+    }
+
     public Product(String name, String type, int stock, double price,
                    String imageLocation, int threshold) {
         Name = name;

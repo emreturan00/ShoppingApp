@@ -5,6 +5,7 @@ import java.util.List;
 // Order.java
 public class Order {
     private int orderId;
+    private int userID;
     private String orderTime;
     private String deliveryTime;
     private List<Product> products;
