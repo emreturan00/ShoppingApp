@@ -6,10 +6,7 @@ import com.example.shoppingapp.models.Order;
 import com.example.shoppingapp.models.Product;
 import com.example.shoppingapp.repository.DatabaseAdapter;
 import com.example.shoppingapp.repository.MySqlConnectionAdapter;
-import com.example.shoppingapp.services.CartService;
-import com.example.shoppingapp.services.DeliveryService;
-import com.example.shoppingapp.services.ProductService;
-import com.example.shoppingapp.services.UserService;
+import com.example.shoppingapp.services.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -58,6 +55,12 @@ public class HelloApplication extends Application {
 //        stage.setTitle("Hello!");
 //        stage.setScene(scene);
 //        stage.show();
+
+        UserService userService = new UserService(databaseAdapter);
+
+        userService.signIn("ahmet","salladim");
+
+        System.out.println(UserSession.getInstance().getUserId());
     }
 
     public static void main(String[] args) {

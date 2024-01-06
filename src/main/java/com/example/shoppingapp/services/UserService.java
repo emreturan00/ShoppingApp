@@ -32,13 +32,15 @@ public class UserService {
 
     public boolean signIn(String username, String password) {
         try (Connection connection = databaseAdapter.getConnection()) {
-            String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+            String query = "SELECT * FROM userinfo WHERE username = ? AND password = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, username);
                 preparedStatement.setString(2, password);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
                 if (resultSet.next()) {
+                    int loggedInUserId = resultSet.getInt("id");
+                    UserSession.getInstance().setUserId(loggedInUserId);
                     System.out.println("User signed in successfully!");
                     return true;
                 } else {
@@ -49,7 +51,7 @@ public class UserService {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        }
+    }
 
     }
 
