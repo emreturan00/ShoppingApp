@@ -53,13 +53,13 @@ public class CartService {
 
 
 
-    public List<CartItem> viewCart(int userId) {
+    public List<CartItem> viewCart() {
         List<CartItem> cartItems = new ArrayList<>();
 
         try (Connection connection = databaseAdapter.getConnection()) {
             String query = "SELECT c.user_id, c.product_id, c.quantity, p.* FROM cartinfo c JOIN productinfo p ON c.product_id = p.id WHERE c.user_id = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, userId);
+                statement.setInt(1, UserSession.getInstance().getUserId());
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
@@ -94,13 +94,13 @@ public class CartService {
     }
 
 
-    public void updateCartItemQuantity(int userId, int productId, int newQuantity) {
+    public void updateCartItemQuantity(int productId, int newQuantity) {
         try (Connection connection = databaseAdapter.getConnection()) {
             // Update the quantity in the cartinfo table
             String updateQuery = "UPDATE cartinfo SET quantity = ? WHERE user_id = ? AND product_id = ?";
             try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
                 updateStatement.setInt(1, newQuantity);
-                updateStatement.setInt(2, userId);
+                updateStatement.setInt(2, UserSession.getInstance().getUserId());
                 updateStatement.setInt(3, productId);
 
                 // Execute the update statement
@@ -111,12 +111,12 @@ public class CartService {
         }
     }
 
-    public void removeProductFromCart(int userId, int productId) {
+    public void removeProductFromCart(int productId) {
         try (Connection connection = databaseAdapter.getConnection()) {
             // Remove the product from the cartinfo table
             String removeQuery = "DELETE FROM cartinfo WHERE user_id = ? AND product_id = ?";
             try (PreparedStatement removeStatement = connection.prepareStatement(removeQuery)) {
-                removeStatement.setInt(1, userId);
+                removeStatement.setInt(1, UserSession.getInstance().getUserId());
                 removeStatement.setInt(2, productId);
 
                 // Execute the delete statement
@@ -128,20 +128,20 @@ public class CartService {
     }
 
 
-    public void completeCart(int userId) {
+    public void completeCart(String deliveryTime, String carrier) {
         try (Connection connection = databaseAdapter.getConnection()) {
             // Start a transaction
             connection.setAutoCommit(false);
 
             try {
                 // Insert items from the cart into the orders table
-                int orderId = moveItemsToOrders(userId, connection);
+                int orderId = moveItemsToOrders(deliveryTime, carrier, connection);
 
                 // Update product stock based on the cart
 //                updateProductStock(userId, connection);
 
                 // Clear the user's cart
-                clearUserCart(userId, connection);
+                clearUserCart(connection);
 
                 // Commit the transaction
                 connection.commit();
@@ -155,15 +155,19 @@ public class CartService {
         }
     }
 
-    private int moveItemsToOrders(int userId, Connection connection) throws SQLException {
+    private int moveItemsToOrders(String deliveryTime, String carrier, Connection connection) throws SQLException {
         // Insert items from the cart into the orders table
-        String insertOrderQuery = "INSERT INTO orderinfo (userID, orderTime, totalcost) VALUES (?, CURRENT_TIMESTAMP, ?)";
+        String insertOrderQuery = "INSERT INTO orderinfo (userId, orderTime, deliveryTime, carrier, isDelivered, totalCost) VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
         try (PreparedStatement insertOrderStatement = connection.prepareStatement(insertOrderQuery, Statement.RETURN_GENERATED_KEYS)) {
-            insertOrderStatement.setInt(1, userId);
+            // Set values for the columns
+            insertOrderStatement.setInt(1, UserSession.getInstance().getUserId());
+            insertOrderStatement.setString(2, deliveryTime);
+            insertOrderStatement.setString(3, carrier);
+            insertOrderStatement.setBoolean(4, false);
 
             // Calculate total cost based on the cart items
-            double totalCost = calculateTotalCost(userId, connection);
-            insertOrderStatement.setDouble(2, totalCost);
+            double totalCost = calculateTotalCost(connection);
+            insertOrderStatement.setDouble(5, totalCost);
 
             // Execute the insert statement
             insertOrderStatement.executeUpdate();
@@ -179,11 +183,12 @@ public class CartService {
         }
     }
 
-    private double calculateTotalCost(int userId, Connection connection) throws SQLException {
+
+    private double calculateTotalCost(Connection connection) throws SQLException {
         // Calculate total cost based on the cart items
         String calculateTotalCostQuery = "SELECT SUM(p.price * c.quantity) AS total_cost FROM cartinfo c JOIN productinfo p ON c.product_id = p.id WHERE c.user_id = ?";
         try (PreparedStatement calculateTotalCostStatement = connection.prepareStatement(calculateTotalCostQuery)) {
-            calculateTotalCostStatement.setInt(1, userId);
+            calculateTotalCostStatement.setInt(1, UserSession.getInstance().getUserId());
 
             // Execute the query
             try (ResultSet resultSet = calculateTotalCostStatement.executeQuery()) {
@@ -207,11 +212,11 @@ public class CartService {
 //        }
 //    }
 
-    private void clearUserCart(int userId, Connection connection) throws SQLException {
+    private void clearUserCart(Connection connection) throws SQLException {
         // Clear the user's cart
         String clearCartQuery = "DELETE FROM cartinfo WHERE user_id = ?";
         try (PreparedStatement clearCartStatement = connection.prepareStatement(clearCartQuery)) {
-            clearCartStatement.setInt(1, userId);
+            clearCartStatement.setInt(1, UserSession.getInstance().getUserId());
 
             // Execute the delete statement
             clearCartStatement.executeUpdate();

@@ -16,7 +16,7 @@ public class OrderService {
         this.databaseAdapter = databaseAdapter;
     }
 
-    public List<Order> viewOrders(String carrierUsername) {
+    public List<Order> viewOrders() {
         List<Order> orders = new ArrayList<>();
         return orders;
     }

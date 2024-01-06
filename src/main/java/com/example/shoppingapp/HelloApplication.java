@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.Console;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +63,15 @@ public class HelloApplication extends Application {
 
         userService.signIn("ahmet","salladim");
 
-        System.out.println(UserSession.getInstance().getUserId());
+//        CartItem cartItem = new CartItem(productService.viewAvailableProducts().get(0),1);
+//
+//        cartService.addToCart(cartItem);
+
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        String formattedDateTime = LocalDateTime.now().format(formatter);
+
+//
+
     }
 
     public static void main(String[] args) {

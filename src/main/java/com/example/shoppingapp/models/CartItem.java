@@ -1,6 +1,7 @@
 package com.example.shoppingapp.models;
 
 import com.example.shoppingapp.models.Product;
+import com.example.shoppingapp.services.UserSession;
 
 // CartItem.java
 public class CartItem {
@@ -8,8 +9,8 @@ public class CartItem {
     private Product product;
     private int quantity;
 
-    public CartItem(int userId, Product product, int quantity) {
-        this.userId = userId;
+    public CartItem(Product product, int quantity) {
+        this.userId = UserSession.getInstance().getUserId();
         this.product = product;
         this.quantity = quantity;
     }
