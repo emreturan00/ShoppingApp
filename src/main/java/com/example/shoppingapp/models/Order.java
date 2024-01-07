@@ -8,24 +8,23 @@ public class Order {
     private int userID;
     private String orderTime;
     private String deliveryTime;
-    private List<Product> products;
-    private String user;
+    private String products;
     private String carrier;
     private boolean isdelivered;
     private double totalcost;
 
-    public Order(int orderId, String orderTime, String deliveryTime,
-                 List<Product> products, String user,
-                 String carrier, boolean isdelivered, double totalcost) {
+
+    public Order(int orderId, int userID, String orderTime, String deliveryTime, String products, String carrier, boolean isdelivered, double totalcost) {
         this.orderId = orderId;
+        this.userID = userID;
         this.orderTime = orderTime;
         this.deliveryTime = deliveryTime;
         this.products = products;
-        this.user = user;
         this.carrier = carrier;
         this.isdelivered = isdelivered;
         this.totalcost = totalcost;
     }
+
 
     public int getOrderId() {
         return orderId;
@@ -33,6 +32,14 @@ public class Order {
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public String getOrderTime() {
@@ -51,20 +58,12 @@ public class Order {
         this.deliveryTime = deliveryTime;
     }
 
-    public List<Product> getProducts() {
+    public String getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(String products) {
         this.products = products;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public String getCarrier() {
@@ -89,5 +88,19 @@ public class Order {
 
     public void setTotalcost(double totalcost) {
         this.totalcost = totalcost;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", userID=" + userID +
+                ", orderTime='" + orderTime + '\'' +
+                ", deliveryTime='" + deliveryTime + '\'' +
+                ", products='" + products + '\'' +
+                ", carrier='" + carrier + '\'' +
+                ", isdelivered=" + isdelivered +
+                ", totalcost=" + totalcost +
+                '}';
     }
 }

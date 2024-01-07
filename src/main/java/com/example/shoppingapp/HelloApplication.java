@@ -25,22 +25,19 @@ public class HelloApplication extends Application {
 
         DatabaseAdapter databaseAdapter = new MySqlConnectionAdapter();
 
-//        Product product = new Product("muz", "meyve", 3
-//                ,82,"essek",10);
-//
+//        Product product = new Product(30,"ejder", "meyve", 3,82,"essek",10);
+////
         ProductService productService = new ProductService(databaseAdapter);
-//
+////
+//        productService.addProduct(product);
+
+        UserService userService = new UserService(databaseAdapter);
+        userService.signIn("cemre","salladim");
         CartService cartService = new CartService(databaseAdapter);
-//        Product product = productService.viewAvailableProducts().get(0);
-//        CartItem cartItem = new CartItem(2,product,1);
+        Product product = productService.viewAvailableProducts().get(2);
+        CartItem cartItem = new CartItem(product,1);
 //        cartService.addToCart(cartItem);
 
-//        List<CartItem> cartItems = cartService.viewCart(2);
-//        if (cartItems != null && !cartItems.isEmpty()) {
-//            System.out.println(cartItems.toString());
-//        } else {
-//            System.out.println("Cart is empty or null.");
-//        }
 
 
 
@@ -59,16 +56,22 @@ public class HelloApplication extends Application {
 //        stage.setScene(scene);
 //        stage.show();
 
-        UserService userService = new UserService(databaseAdapter);
-
-        userService.signIn("ahmet","salladim");
-
-//        CartItem cartItem = new CartItem(productService.viewAvailableProducts().get(0),1);
+//        UserService userService = new UserService(databaseAdapter);
 //
+//        userService.signIn("ahmet","salladim");
+//
+//        CartItem cartItem = new CartItem(productService.viewAvailableProducts().get(0),1);
+////
 //        cartService.addToCart(cartItem);
+//
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = LocalDateTime.now().format(formatter);
+//        cartService.completeCart(formattedDateTime,"emrekargocuccccc");
 
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        String formattedDateTime = LocalDateTime.now().format(formatter);
+        OrderService orderService = new OrderService(databaseAdapter);
+
+        System.out.println(orderService.viewOrders().toString());
+
 
 //
 

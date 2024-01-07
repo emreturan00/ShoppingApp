@@ -7,6 +7,8 @@ import com.example.shoppingapp.repository.DatabaseAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 public class CartService {
     private DatabaseAdapter databaseAdapter;
 
@@ -157,10 +159,11 @@ public class CartService {
 
     private int moveItemsToOrders(String deliveryTime, String carrier, Connection connection) throws SQLException {
         // Insert items from the cart into the orders table
-        String insertOrderQuery = "INSERT INTO orderinfo (userId, orderTime, deliveryTime, carrier, isDelivered, totalCost) VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
+        String insertOrderQuery = "INSERT INTO orderinfo (userId, orderTime, deliveryTime, carrier, isDelivered, totalCost, products) VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)";
         try (PreparedStatement insertOrderStatement = connection.prepareStatement(insertOrderQuery, Statement.RETURN_GENERATED_KEYS)) {
             // Set values for the columns
-            insertOrderStatement.setInt(1, UserSession.getInstance().getUserId());
+            int userId = UserSession.getInstance().getUserId();
+            insertOrderStatement.setInt(1, userId);
             insertOrderStatement.setString(2, deliveryTime);
             insertOrderStatement.setString(3, carrier);
             insertOrderStatement.setBoolean(4, false);
@@ -168,6 +171,16 @@ public class CartService {
             // Calculate total cost based on the cart items
             double totalCost = calculateTotalCost(connection);
             insertOrderStatement.setDouble(5, totalCost);
+
+            // Retrieve the list of product IDs from the cart
+            List<Integer> productIds = getCartProductIds(userId, connection);
+
+            // Convert the list of product IDs to a CSV string
+            String productsCsv = productIds.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","));
+
+            insertOrderStatement.setString(6, productsCsv);
 
             // Execute the insert statement
             insertOrderStatement.executeUpdate();
@@ -182,6 +195,25 @@ public class CartService {
             }
         }
     }
+
+    private List<Integer> getCartProductIds(int userId, Connection connection) throws SQLException {
+        // Implement logic to retrieve the list of product IDs from the cart
+        List<Integer> productIds = new ArrayList<>();
+        String query = "SELECT product_id FROM cartinfo WHERE user_id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, userId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    productIds.add(resultSet.getInt("product_id"));
+                }
+            }
+        }
+
+        return productIds;
+    }
+
 
 
     private double calculateTotalCost(Connection connection) throws SQLException {
