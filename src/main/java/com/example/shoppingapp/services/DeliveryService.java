@@ -10,6 +10,8 @@
 //import com.example.shoppingapp.models.Product;
 //import com.example.shoppingapp.repository.DatabaseAdapter;
 //
+
+//bakilacak!!!!!!
 //public class DeliveryService {
 //    private DatabaseAdapter databaseAdapter;
 //
