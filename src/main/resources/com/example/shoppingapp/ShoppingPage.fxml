@@ -10,9 +10,9 @@
          <tabs>
             <Tab fx:id="allTab" text="All">
                <content>
-                  <ScrollPane fx:id="allScroll" fitToHeight="true" fitToWidth="true">
+                  <ScrollPane fx:id="allScroll" fitToHeight="true" fitToWidth="true" prefHeight="540" prefWidth="960" >
                      <content>
-                        <VBox fx:id="productContainer" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" spacing="10">
+                        <VBox fx:id="productContainer" minHeight="-Infinity" minWidth="-Infinity"  spacing="10">
                            <!-- Your existing content for the "All" tab goes here -->
                         </VBox>
                      </content>
@@ -21,7 +21,7 @@
             </Tab>
             <Tab text="Fruits">
                <content>
-                  <ScrollPane fitToHeight="true" fitToWidth="true">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="540" prefWidth="960">
                      <content>
                         <VBox fx:id="productContainerFruits" spacing="10">
                            <!-- Your existing content for the "Fruits" tab goes here -->
@@ -32,7 +32,7 @@
             </Tab>
             <Tab text="Vegetables">
                <content>
-                  <ScrollPane fitToHeight="true" fitToWidth="true">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="540" prefWidth="960">
                      <content>
                         <VBox fx:id="productContainerVegetables" spacing="10">
                            <!-- Your existing content for the "Vegetables" tab goes here -->
