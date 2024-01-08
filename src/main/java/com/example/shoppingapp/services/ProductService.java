@@ -43,6 +43,37 @@ public class ProductService {
         return availableProducts;
     }
 
+    public List<Product> getProductsByType(String productType) {
+        List<Product> productsByType = new ArrayList<>();
+
+        try (Connection connection = databaseAdapter.getConnection()) {
+            String query = "SELECT * FROM productinfo WHERE type = ? AND stock > 0";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, productType);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("id");
+                        String name = resultSet.getString("Name");
+                        String type = resultSet.getString("type");
+                        int stock = resultSet.getInt("stock");
+                        double price = resultSet.getDouble("price");
+                        String imageLocation = resultSet.getString("imageLocation");
+                        int threshold = resultSet.getInt("threshold");
+
+                        Product product = new Product(id, name, type, stock, price, imageLocation, threshold);
+                        productsByType.add(product);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return productsByType;
+    }
+
+
 
     public void addProduct(Product product) {
         try (Connection connection = databaseAdapter.getConnection()) {

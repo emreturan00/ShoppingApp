@@ -1,112 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<Pane fx:controller="com.example.shoppingapp.controller.ShoppingController" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.ShoppingController">
    <children>
-      <TabPane layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="349.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab text="All">
+            <Tab fx:id="allTab" text="All">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <VBox layoutX="18.0" layoutY="14.0" prefHeight="153.0" prefWidth="564.0">
-                           <children>
-                              <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="156.0" prefWidth="564.0">
-                                 <children>
-                                    <Button fx:id="addButton" layoutX="396.0" layoutY="63.0" mnemonicParsing="false" text="Add" onAction="#handleAdd"/>
-                                    <TextArea fx:id="valueText" layoutX="326.0" layoutY="64.0" prefHeight="31.0" prefWidth="51.0" />
-                                    <Text layoutX="57.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Name">
-                                       <font>
-                                          <Font name="System Bold Italic" size="15.0" />
-                                       </font>
-                                    </Text>
-                                    <Text layoutX="77.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26TL / Kg" />
-                                    <ImageView fitHeight="92.0" fitWidth="95.0" layoutX="58.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@karpuz.jpg" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </Pane>
-                           </children>
+                  <ScrollPane fx:id="allScroll" fitToHeight="true" fitToWidth="true">
+                     <content>
+                        <VBox fx:id="productContainer" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" spacing="10">
+                           <!-- Your existing content for the "All" tab goes here -->
                         </VBox>
-                     </children>
-                  </AnchorPane>
+                     </content>
+                  </ScrollPane>
                </content>
             </Tab>
             <Tab text="Fruits">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <VBox layoutX="18.0" layoutY="14.0" prefHeight="153.0" prefWidth="564.0">
-                           <children>
-                              <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="156.0" prefWidth="564.0">
-                                 <children>
-                                    <Button fx:id="addButton2" layoutX="396.0" layoutY="63.0" mnemonicParsing="false" text="Add" onAction="#handleAdd2"/>
-                                    <TextArea fx:id="valueText2" layoutX="326.0" layoutY="64.0" prefHeight="31.0" prefWidth="51.0" />
-                                    <Text layoutX="57.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Name">
-                                       <font>
-                                          <Font name="System Bold Italic" size="15.0" />
-                                       </font>
-                                    </Text>
-                                    <Text layoutX="77.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26TL / Kg" />
-                                    <ImageView fitHeight="92.0" fitWidth="95.0" layoutX="58.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@appole.jpg" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </Pane>
-                           </children>
+                  <ScrollPane fitToHeight="true" fitToWidth="true">
+                     <content>
+                        <VBox fx:id="productContainerFruits" spacing="10">
+                           <!-- Your existing content for the "Fruits" tab goes here -->
                         </VBox>
-                     </children>
-                  </AnchorPane>
+                     </content>
+                  </ScrollPane>
                </content>
             </Tab>
             <Tab text="Vegetables">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <VBox layoutX="18.0" layoutY="14.0" prefHeight="156.0" prefWidth="534.0">
-                           <children>
-                              <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="156.0" prefWidth="564.0">
-                                 <children>
-                                    <Button fx:id="addButton3" layoutX="396.0" layoutY="63.0" mnemonicParsing="false" text="Add" onAction="#handleAdd3"/>
-                                    <TextArea fx:id="valueText3" layoutX="326.0" layoutY="64.0" prefHeight="31.0" prefWidth="51.0" />
-                                    <Text layoutX="57.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Name">
-                                       <font>
-                                          <Font name="System Bold Italic" size="15.0" />
-                                       </font>
-                                    </Text>
-                                    <Text layoutX="77.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2TL / Kg" />
-                                    <ImageView fitHeight="92.0" fitWidth="95.0" layoutX="58.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@armut.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </Pane>
-                           </children>
+                  <ScrollPane fitToHeight="true" fitToWidth="true">
+                     <content>
+                        <VBox fx:id="productContainerVegetables" spacing="10">
+                           <!-- Your existing content for the "Vegetables" tab goes here -->
                         </VBox>
-                     </children>
-                  </AnchorPane>
+                     </content>
+                  </ScrollPane>
                </content>
             </Tab>
          </tabs>
       </TabPane>
-      <Button fx:id="gotocart" layoutX="509.0" layoutY="9.0" mnemonicParsing="false" text="CART" onAction="#handleGotocart" />
+      <Button fx:id="gotocart" layoutX="855.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleGotocart" text="CART" />
       <Text fill="#2c4dd1" layoutX="191.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SHOPPING PAGE">
          <font>
             <Font size="29.0" />
          </font>
       </Text>
-      <Text fx:id="gotouser" layoutX="14.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER: AYCA" onMouseClicked="#handleGotouser"/>
+      <Text fx:id="gotouser" layoutX="14.0" layoutY="30.0" onMouseClicked="#handleGotouser" strokeType="OUTSIDE" strokeWidth="0.0" text="USER: AYCA" />
    </children>
 </Pane>

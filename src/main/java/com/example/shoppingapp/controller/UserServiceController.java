@@ -60,6 +60,7 @@ public class UserServiceController {
             Stage signUpStage = new Stage();
             signUpStage.setTitle("Shopping");
             signUpStage.setScene(new Scene(signUpContainer));
+
             signUpStage.show();
 
         } catch (IOException e) {
