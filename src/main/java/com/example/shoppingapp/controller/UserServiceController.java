@@ -44,6 +44,27 @@ public class UserServiceController {
         String password = passwordField.getText();
 
         userService.signIn(username,password);
+        Stage currentStage = (Stage) usernameField.getScene().getWindow();
+
+        currentStage.close();
+
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("ShoppingPage.fxml"));
+            Parent signUpRoot = fxmlLoader.load();
+
+            // Create a new container (e.g., BorderPane) and set the loaded content as its center
+            BorderPane signUpContainer = new BorderPane();
+            signUpContainer.setCenter(signUpRoot);
+
+            Stage signUpStage = new Stage();
+            signUpStage.setTitle("Shopping");
+            signUpStage.setScene(new Scene(signUpContainer));
+            signUpStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
