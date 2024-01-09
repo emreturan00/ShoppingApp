@@ -35,6 +35,12 @@ public class ShoppingController {
     private VBox productContainer;
 
     @FXML
+    private VBox productContainerFruits;
+
+    @FXML
+    private VBox productContainerVegetables;
+
+    @FXML
     private Tab allTab;
 
     @FXML
@@ -126,23 +132,23 @@ public class ShoppingController {
 
     @FXML
     private void initialize() {
-        displayProducts(allScroll, productService.viewAvailableProducts());
-        allScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-//        allScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-//        Tab fruitsTab = new Tab("Fruits");
-//        displayProducts(fruitsTab, productService.getProductsByType("ayicik"));
+        displayProducts(allScroll, productContainer, productService.viewAvailableProducts());
+        displayProducts(fruitsScroll, productContainerFruits, productService.getProductsByType("meyve"));
+        displayProducts(vegetablesScroll, productContainerVegetables, productService.getProductsByType("ayicik"));
+
     }
 
-    private void displayProducts(ScrollPane scrollPane, List<Product> products) {
+    private void displayProducts(ScrollPane scrollPane, VBox vBox, List<Product> products) {
 
-        productContainer.getChildren().clear(); // Clear existing content
+
+        vBox.getChildren().clear(); // Clear existing content
 
         for (Product product : products) {
             VBox productBox = createProductBox(product);
-            productContainer.getChildren().add(productBox);
+            vBox.getChildren().add(productBox);
         }
 
-        scrollPane.setContent(productContainer);
+        scrollPane.setContent(vBox);
     }
 
     private VBox createProductBox(Product product) {
@@ -152,12 +158,9 @@ public class ShoppingController {
         productBox.setMaxSize(850,100);
 
 
-
         Text nameLabel = new Text("Product Name: " + product.getName());
         Text priceLabel = new Text("Price: " + product.getPrice() + " TL / Kg");
         ImageView imageView = new ImageView(new Image(new File(product.getImageLocation()).toURI().toString()));
-
-
 
 //        imageView.setFitWidth(50);
 //        imageView.setFitHeight(50);
@@ -167,24 +170,13 @@ public class ShoppingController {
         quantityTextArea.setMaxSize(50,50);
         quantityTextArea.setPrefWidth(50);
 
-
-
         Button addButton = new Button("Add to Cart");
         addButton.setId("addButton");
         addButton.setUserData(product);
 
         addButton.setOnAction(event -> handleAddButton(quantityTextArea, addButton));
-
-
-//        quantityTextArea.setMaxWidth(100);
-//        addButton.setOnAction(event -> handleAddButton(product, quantityTextArea.getText()));
-
         productBox.getChildren().addAll(nameLabel, priceLabel, imageView, quantityTextArea, addButton);
 
         return productBox;
     }
-
-
-
-
 }
