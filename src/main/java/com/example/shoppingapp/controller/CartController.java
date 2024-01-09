@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -38,12 +39,47 @@ public class CartController {
 
     @FXML
     private ScrollPane allCart;
+    @FXML
+    private Button purchase;
+    @FXML
+    private Button continueShopping;
+    @FXML
+    private TextArea summary;
+    @FXML
+    private TextArea selectDate;
+    @FXML
+    private TextArea totalArea;
+    @FXML
+    private Text total;
+
+
+
 
 
 
     private void handleRemoveButton(Button button){
         CartItem cartItem = (CartItem) button.getUserData();
         cartService.removeProductFromCart(cartItem.getProduct().getProductId());
+        Stage currentStage = (Stage) button.getScene().getWindow();
+        currentStage.close();
+
+        ShoppingController shoppingController = new ShoppingController();
+        shoppingController.handleGotocart();
+
+
+    }
+
+    @FXML
+    private void handleContinue(ActionEvent event){
+        Node source = (Node) event.getSource();
+        Stage currentStage = (Stage) source.getScene().getWindow();
+        currentStage.close();
+    }
+
+    @FXML
+    private void handlePurchase(ActionEvent event){
+        System.out.println(selectDate.getText());
+        cartService.completeCart(selectDate.getText(),"saticinin kargosu");
     }
 
     //===================================================================================
@@ -55,13 +91,24 @@ public class CartController {
 
     private void displayProducts(ScrollPane scrollPane, VBox vBox, List<CartItem> cartItems) {
 
-
+        Double totalPrice = 0.0;
         vBox.getChildren().clear(); // Clear existing content
+        summary.setEditable(false);
+        summary.setWrapText(true);
+        totalArea.setEditable(false);
+        totalArea.setWrapText(true);
 
         for (CartItem cartItem : cartItems) {
+            summary.appendText("\n" + cartItem.getProduct().getName() + "---- x" +cartItem.getQuantity() + "---- " +cartItem.getProduct().getPrice());
+            totalPrice += cartItem.getProduct().getPrice() * cartItem.getQuantity();
             VBox productBox = createProductBox(cartItem);
             vBox.getChildren().add(productBox);
         }
+        double tax = totalPrice/100;
+        summary.appendText("\n" + "VALUE ADDING TAX 1%: " + tax);
+        totalPrice += tax;
+        totalArea.setText(totalPrice + "TL");
+
 
         scrollPane.setContent(vBox);
     }
