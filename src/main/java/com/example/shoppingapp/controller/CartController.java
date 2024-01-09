@@ -75,6 +75,24 @@ public class CartController {
         Stage currentStage = (Stage) source.getScene().getWindow();
         currentStage.close();
     }
+    @FXML
+    private void handleOrders(ActionEvent event){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Orders.fxml"));
+            Parent signUpRoot = fxmlLoader.load();
+
+            BorderPane signUpContainer = new BorderPane();
+            signUpContainer.setCenter(signUpRoot);
+
+            Stage signUpStage = new Stage();
+            signUpStage.setTitle("Orders");
+            signUpStage.setScene(new Scene(signUpContainer));
+            signUpStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void handlePurchase(ActionEvent event){

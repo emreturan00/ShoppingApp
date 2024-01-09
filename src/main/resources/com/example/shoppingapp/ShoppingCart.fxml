@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.CartController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.CartController">
    <right>
       <TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="308.0" text="Check Out Summary" BorderPane.alignment="CENTER">
          <content>
@@ -18,6 +17,7 @@
                   </Text>
                   <Button fx:id="purchase" layoutX="113.0" layoutY="419.0" mnemonicParsing="false" onAction="#handlePurchase" text="Purchase" />
                   <Button fx:id="continueShopping" layoutX="79.0" layoutY="463.0" mnemonicParsing="false" onAction="#handleContinue" text="Continue Shopping" />
+                  <Button fx:id="orders" layoutX="228.0" layoutY="463.0" mnemonicParsing="false" onAction="#handleOrders" text="Orders" />
                   <Text fx:id="total" layoutX="42.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL:" wrappingWidth="203.23291015625">
                      <font>
                         <Font name="System Bold" size="30.0" />

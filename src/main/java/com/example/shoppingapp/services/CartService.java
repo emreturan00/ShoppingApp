@@ -218,7 +218,7 @@ public class CartService {
 
     private double calculateTotalCost(Connection connection) throws SQLException {
         // Calculate total cost based on the cart items
-        String calculateTotalCostQuery = "SELECT SUM(p.price * c.quantity) AS total_cost FROM cartinfo c JOIN productinfo p ON c.product_id = p.id WHERE c.user_id = ?";
+        String calculateTotalCostQuery = "SELECT SUM(p.price * c.quantity + (p.price * c.quantity/100)) AS total_cost FROM cartinfo c JOIN productinfo p ON c.product_id = p.id WHERE c.user_id = ?";
         try (PreparedStatement calculateTotalCostStatement = connection.prepareStatement(calculateTotalCostQuery)) {
             calculateTotalCostStatement.setInt(1, UserSession.getInstance().getUserId());
 

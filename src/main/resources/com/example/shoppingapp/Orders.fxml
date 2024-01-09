@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.OrderController">
+   <left>
+      <TitledPane animated="false" prefHeight="540.0" prefWidth="965.0" text="ShoppingCart">
+         <content>
+            <ScrollPane fx:id="allOrder" prefHeight="508.0" prefWidth="561.0">
+               <content>
+                  <VBox fx:id="orderContainer" layoutX="22.0" layoutY="45.0" prefHeight="72.0" prefWidth="357.0" />
+                  <Text layoutX="36.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ORDERS" textAlignment="CENTER" wrappingWidth="958.6708984375">
+                     <font>
+                        <Font name="System Bold" size="30.0" />
+                     </font>
+                  </Text>
+               </content>
+            </ScrollPane>
+         </content>
+      </TitledPane>
+   </left>
+</BorderPane>
