@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.OwnerController">
+   <children>
+      <TabPane layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab text="Product Operations">
+               <content>
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0">
+                     <children>
+                        <TextField fx:id="name" layoutX="48.0" layoutY="87.0" promptText="name" />
+                        <TextField fx:id="type" layoutX="48.0" layoutY="132.0" promptText="type" />
+                        <TextField fx:id="stock" layoutX="48.0" layoutY="178.0" promptText="stock" />
+                        <TextField fx:id="price" layoutX="48.0" layoutY="228.0" promptText="price" />
+                        <TextField fx:id="imageLocation" layoutX="48.0" layoutY="282.0" promptText="image location" />
+                        <TextField fx:id="threshold" layoutX="48.0" layoutY="330.0" promptText="threshold" />
+                        <Text  layoutX="95.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ADD">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Text>
+                        <Button fx:id="add" layoutX="118.0" layoutY="371.0" mnemonicParsing="false" text="Add" onAction="#handleAdd" />
+                        <TextField layoutX="387.0" layoutY="178.0" promptText="stock" />
+                        <TextField layoutX="387.0" layoutY="282.0" promptText="image location" />
+                        <TextField layoutX="387.0" layoutY="228.0" promptText="price" />
+                        <Button fx:id="update" layoutX="457.0" layoutY="371.0" mnemonicParsing="false" text="Update" onAction="#handleUpdate"/>
+                        <TextField layoutX="387.0" layoutY="330.0" promptText="threshold" />
+                        <TextField layoutX="387.0" layoutY="132.0" promptText="type" />
+                        <TextField layoutX="387.0" layoutY="87.0" promptText="name" />
+                        <Text  layoutX="434.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UPDATE">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="delete" layoutX="749.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DELETE">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Text>
+                        <Button fx:id="deleteButton" layoutX="749.0" layoutY="371.0" mnemonicParsing="false" text="Delete" onAction="#handleDelete"/>
+                        <TextField fx:id="nameDelete" layoutX="698.0" layoutY="87.0" promptText="name" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="ordersTab" text="View All Orders">
+               <content>
+                  <ScrollPane fx:id="ordersScroll" fitToHeight="true" fitToWidth="true" prefHeight="540" prefWidth="960">
+                     <content>
+                        <VBox fx:id="ordersContainer" spacing="10">
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+            <Tab text="Employ/Fire Carrier">
+               <content>
+                  <AnchorPane prefHeight="540.0" prefWidth="960.0">
+                     <children>
+                        <ChoiceBox layoutX="181.0" layoutY="139.0" prefWidth="150.0" />
+                        <Text layoutX="129.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SELECT CARRIER">
+                           <font>
+                              <Font size="35.0" />
+                           </font>
+                        </Text>
+                        <Button layoutX="226.0" layoutY="196.0" mnemonicParsing="false" text="Select" />
+                        <Button layoutX="617.0" layoutY="139.0" mnemonicParsing="false" text="Fire" />
+                        <Text layoutX="463.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FIRE CURRENT CARRIER">
+                           <font>
+                              <Font size="35.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="reportsTab" text="View Reports">
+               <content>
+                  <ScrollPane fx:id="reportsScroll" fitToHeight="true" fitToWidth="true" prefHeight="540" prefWidth="960" />
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <Text fx:id="gotouser" layoutX="14.0" layoutY="30.0" onMouseClicked="#handleGotouser" strokeType="OUTSIDE" strokeWidth="0.0" text="USER: AYCA" />
+   </children>
+</Pane>

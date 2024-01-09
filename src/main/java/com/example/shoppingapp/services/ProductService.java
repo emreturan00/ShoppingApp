@@ -95,11 +95,11 @@ public class ProductService {
         }
     }
 
-    public void removeProduct(Product product) {
+    public void removeProduct(String name) {
         try (Connection connection = databaseAdapter.getConnection()) {
             String query = "DELETE FROM productinfo WHERE Name = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, product.getName());
+                preparedStatement.setString(1, name);
 
                 int rowsAffected = preparedStatement.executeUpdate();
                 if (rowsAffected > 0) {
