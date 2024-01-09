@@ -97,7 +97,7 @@ public class CartController {
     @FXML
     private void handlePurchase(ActionEvent event){
         System.out.println(selectDate.getText());
-        cartService.completeCart(selectDate.getText(),"saticinin kargosu");
+        cartService.completeCart(selectDate.getText(),"notselected");
     }
 
     //===================================================================================

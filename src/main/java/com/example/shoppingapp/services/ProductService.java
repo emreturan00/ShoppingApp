@@ -32,6 +32,7 @@ public class ProductService {
                     String imageLocation = resultSet.getString("imageLocation");
                     int threshold = resultSet.getInt("threshold");
 
+
                     Product product = new Product(id,name, type, stock, price, imageLocation, threshold);
                     availableProducts.add(product);
                 }

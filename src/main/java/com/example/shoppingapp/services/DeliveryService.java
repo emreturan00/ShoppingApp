@@ -1,87 +1,87 @@
-//package com.example.shoppingapp.services;
-//import java.sql.Connection;
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-//import java.util.ArrayList;
-//import java.util.List;
-//import com.example.shoppingapp.models.Delivery;
-//import com.example.shoppingapp.models.Order;
-//import com.example.shoppingapp.models.Product;
-//import com.example.shoppingapp.repository.DatabaseAdapter;
-//
+package com.example.shoppingapp.services;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import com.example.shoppingapp.models.Delivery;
+import com.example.shoppingapp.models.Order;
+import com.example.shoppingapp.models.Product;
+import com.example.shoppingapp.repository.DatabaseAdapter;
 
-//bakilacak!!!!!!
-//public class DeliveryService {
-//    private DatabaseAdapter databaseAdapter;
-//
-//    public DeliveryService(DatabaseAdapter databaseAdapter) {
-//        this.databaseAdapter = databaseAdapter;
-//    }
-//
-//    public List<Order> viewDeliveries(String carrierUsername) {
-//        List<Order> deliveries = new ArrayList<>();
-//
-//        try (Connection connection = databaseAdapter.getConnection()) {
-//            String query = "SELECT * FROM orderinfo WHERE carrier = ? AND isdelivered = true";
-//            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-//                preparedStatement.setString(1, carrierUsername);
-//                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-//                    while (resultSet.next()) {
-//                        Order delivery = mapResultSetToOrder(resultSet);
-//                        deliveries.add(delivery);
-//                    }
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace(); // Handle the exception appropriately
-//        }
-//
-//        return deliveries;
-//    }
-//
-////    private Order mapResultSetToOrder(ResultSet resultSet) throws SQLException {
-////        // Retrieve order details from the ResultSet and create an Order object
-////        int orderId = resultSet.getInt("orderId");
-////        String orderTime = resultSet.getString("orderTime");
-////        String deliveryTime = resultSet.getString("deliveryTime");
-////        String user = resultSet.getString("user");
-////        String carrier = resultSet.getString("carrier");
-////        boolean isDelivered = resultSet.getBoolean("isDelivered");
-////        double totalCost = resultSet.getDouble("totalCost");
-////
-////        // Assuming there's a method to retrieve a list of products from the ResultSet
-////        List<Product> products = mapResultSetToProductList(resultSet);
-////
-////        // Create an Order object with the retrieved details
-////        Order order = new Order(orderId,UserSession.getInstance().getUserId(), orderTime, deliveryTime, carrier, isDelivered, totalCost,products.toString());
-////        return order;
-////    }
-//
-//    private List<Product> mapResultSetToProductList(ResultSet resultSet) throws SQLException {
-//        List<Product> products = new ArrayList<>();
-//
-//        // Assuming there's a method to retrieve a Product from the ResultSet
-//        while (resultSet.next()) {
-//            Product product = mapResultSetToProduct(resultSet);
-//            products.add(product);
-//        }
-//
-//        return products;
-//    }
-//
-//    private Product mapResultSetToProduct(ResultSet resultSet) throws SQLException {
-//        int productId = resultSet.getInt("productId");
-//        String productName = resultSet.getString("productName");
-//        String productType = resultSet.getString("productType");
-//        int stock = resultSet.getInt("stock");
-//        double price = resultSet.getDouble("price");
-//        String imageLocation = resultSet.getString("imageLocation");
-//        int threshold = resultSet.getInt("threshold");
-//
-//        // Create a Product object with the retrieved details
-//        return new Product(productId, productName, productType,stock, price, imageLocation, threshold);
-//    }
-//
-//
-//}
+
+public class DeliveryService {
+    private DatabaseAdapter databaseAdapter;
+
+    public DeliveryService(DatabaseAdapter databaseAdapter) {
+        this.databaseAdapter = databaseAdapter;
+    }
+
+    public List<Order> viewDeliveries(String carrierUsername) {
+        List<Order> deliveries = new ArrayList<>();
+        return deliveries;
+    }
+
+    public List<Order> viewDeliveriesbycarriername(String carriername) {
+        List<Order> deliveries = new ArrayList<>();
+
+        String query = "SELECT * FROM orderinfo WHERE carrier = ?";
+
+        try (Connection connection = databaseAdapter.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            // Set the parameter value using setString
+            statement.setString(1, carriername);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int orderId = resultSet.getInt("orderId");
+                    String orderTime = resultSet.getString("orderTime");
+                    String deliveryTime = resultSet.getString("deliveryTime");
+                    String carrier = resultSet.getString("carrier");
+                    boolean isDelivered = resultSet.getBoolean("isDelivered");
+                    double totalCost = resultSet.getDouble("totalCost");
+                    String productIdsCSV = resultSet.getString("products");
+
+                    // Convert product IDs from CSV to a list of integers
+                    List<Integer> productIds = convertCSVToList(productIdsCSV);
+
+                    // Create an Order object and add it to the list
+                    Order order = new Order(orderId, UserSession.getInstance().getUserId(), orderTime, deliveryTime, productIds.toString(), carrier, isDelivered, totalCost);
+                    deliveries.add(order);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return deliveries;
+    }
+
+
+    public static List<Integer> convertCSVToList(String csv) {
+        List<Integer> result = new ArrayList<>();
+        if (csv != null && !csv.isEmpty()) {
+            String[] values = csv.split(",");
+            for (String value : values) {
+                try {
+                    int intValue = Integer.parseInt(value.trim());
+                    result.add(intValue);
+                } catch (NumberFormatException e) {
+                    // Handle the case where a non-integer value is encountered
+                    System.err.println("Invalid integer value in CSV: " + value);
+                }
+            }
+        }
+        return result;
+
+    }
+
+
+
+
+
+
+
+}

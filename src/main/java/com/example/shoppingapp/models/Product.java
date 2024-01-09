@@ -12,6 +12,7 @@ public class Product {
     private String imageLocation;
     private int threshold;
 
+
     @Override
     public String toString() {
         return "Product{" +
@@ -30,7 +31,7 @@ public class Product {
 
     public Product(int productId, String name, String type, int stock, double price, String imageLocation, int threshold) {
         this.productId = productId;
-        this.Name = name;
+        Name = name;
         this.type = type;
         this.stock = stock;
         this.price = price;
@@ -94,5 +95,6 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
     }
+
 }
 
