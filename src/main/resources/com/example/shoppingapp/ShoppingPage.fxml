@@ -19,9 +19,9 @@
                   </ScrollPane>
                </content>
             </Tab>
-            <Tab text="Fruits">
+            <Tab fx:id="fruitsTab" text="Fruits">
                <content>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="540" prefWidth="960">
+                  <ScrollPane fx:id="fruitsScroll" fitToHeight="true" fitToWidth="true" prefHeight="540" prefWidth="960">
                      <content>
                         <VBox fx:id="productContainerFruits" spacing="10">
                            <!-- Your existing content for the "Fruits" tab goes here -->
@@ -30,9 +30,9 @@
                   </ScrollPane>
                </content>
             </Tab>
-            <Tab text="Vegetables">
+            <Tab fx:id="vegetablesTab" text="Vegetables">
                <content>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="540" prefWidth="960">
+                  <ScrollPane fx:id="vegetablesScroll" fitToHeight="true" fitToWidth="true" prefHeight="540" prefWidth="960">
                      <content>
                         <VBox fx:id="productContainerVegetables" spacing="10">
                            <!-- Your existing content for the "Vegetables" tab goes here -->

@@ -9,6 +9,7 @@ import com.example.shoppingapp.services.CartService;
 import com.example.shoppingapp.services.ProductService;
 import com.example.shoppingapp.services.UserService;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -46,25 +47,17 @@ public class ShoppingController {
     private ScrollPane allScroll;
 
     @FXML
+    private ScrollPane fruitsScroll;
+
+    @FXML
+    private ScrollPane vegetablesScroll;
+
+    @FXML
     private Text gotouser;
-    @FXML
-    private TextArea valueText;
-    @FXML
-    private TextArea valueText2;
-    @FXML
-    private TextArea valueText3;
 
     @FXML
     private Button gotocart;
 
-    @FXML
-    private Button addButton;
-
-    @FXML
-    private Button addButton2;
-
-    @FXML
-    private Button addButton3;
 
     @FXML
     protected void handleGotouser(){
@@ -115,7 +108,7 @@ public class ShoppingController {
                 int quantity = Integer.parseInt(text);
 
                 // Your existing code to add to the cart
-                Product product = productService.viewAvailableProducts().get(0);
+                Product product = (Product) addButton.getUserData();
                 CartItem cartItem = new CartItem(product, quantity);
                 cartService.addToCart(cartItem);
             } else {
@@ -128,20 +121,6 @@ public class ShoppingController {
         }
     }
 
-    @FXML
-    protected void handleAdd() {
-        handleAddButton(valueText, addButton);
-    }
-
-    @FXML
-    protected void handleAdd2() {
-        handleAddButton(valueText2, addButton2);
-    }
-
-    @FXML
-    protected void handleAdd3() {
-        handleAddButton(valueText3, addButton3);
-    }
 
     //===================================================================================
 
@@ -155,7 +134,6 @@ public class ShoppingController {
     }
 
     private void displayProducts(ScrollPane scrollPane, List<Product> products) {
-        System.out.println(products.toString());
 
         productContainer.getChildren().clear(); // Clear existing content
 
@@ -193,6 +171,11 @@ public class ShoppingController {
 
         Button addButton = new Button("Add to Cart");
         addButton.setId("addButton");
+        addButton.setUserData(product);
+
+        addButton.setOnAction(event -> handleAddButton(quantityTextArea, addButton));
+
+
 //        quantityTextArea.setMaxWidth(100);
 //        addButton.setOnAction(event -> handleAddButton(product, quantityTextArea.getText()));
 
@@ -200,6 +183,8 @@ public class ShoppingController {
 
         return productBox;
     }
+
+
 
 
 }
