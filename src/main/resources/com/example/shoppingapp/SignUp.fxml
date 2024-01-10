@@ -20,7 +20,7 @@
             <TextField fx:id="usernameFieldDone" layoutX="191.0" layoutY="134.0" />
             <Text layoutX="117.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
             <TextField fx:id="passwordFieldDone" layoutX="191.0" layoutY="169.0" />
-            <Button layoutX="223.0" layoutY="212.0" mnemonicParsing="false" onAction="#handleComplete" text="Complete" />
+            <Button layoutX="236.0" layoutY="254.0" mnemonicParsing="false" onAction="#handleComplete" text="Complete" />
 <!--            <Button layoutX="226.0" layoutY="268.0" mnemonicParsing="false" text="Login" />-->
 <!--            <Text layoutX="150.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account? Press login." />-->
             <Text layoutX="197.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create an account.">
@@ -31,7 +31,9 @@
             <Text layoutX="100.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Role:" />
             <ChoiceBox fx:id="choiceBox" layoutX="191.0" layoutY="101.0" prefWidth="150.0" />
 <!--            <Text fill="RED" layoutX="342.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username is taken, try again." underline="true" />-->
-<!--            <Text fill="RED" layoutX="342.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Include punctuations(*-.! etc.) and numbers" underline="true" />-->
+            <Text fx:id="weakText" fill="RED" layoutX="342.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Include punctuations(*-.! etc.) and numbers" underline="true" visible="false" />
+            <TextField fx:id="adressFieldDone" layoutX="191.0" layoutY="208.0" />
+            <Text layoutX="116.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adress" />
          </children></AnchorPane>
   </content>
 </TitledPane>

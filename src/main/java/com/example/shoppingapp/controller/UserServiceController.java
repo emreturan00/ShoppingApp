@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,11 +27,18 @@ public class UserServiceController {
 
     @FXML
     private TextField passwordField;
+
+    @FXML
+    private TextField adressFieldDone;
     @FXML
     private TextField usernameFieldDone;
 
     @FXML
     private TextField passwordFieldDone;
+    @FXML
+    private Text weakText;
+
+
 
     @FXML
     private Button loginButton;
@@ -117,13 +125,18 @@ public class UserServiceController {
 
         String username = usernameFieldDone.getText();
         String password = passwordFieldDone.getText();
+        String adress = adressFieldDone.getText();
 
-        userService.signUp(username,password, choiceBox.getValue(),"essek mahallesi");
+        if(userService.isStrongPassword(password)){
+            weakText.setVisible(false);
+            userService.signUp(username,password, choiceBox.getValue(),adress);
+            Stage currentStage = (Stage) usernameFieldDone.getScene().getWindow();
+            currentStage.close();
+        }
+        else{
+            weakText.setVisible(true);
+        }
 
-        Stage currentStage = (Stage) usernameFieldDone.getScene().getWindow();
-
-        // Close the current Stage
-        currentStage.close();
     }
 
 }

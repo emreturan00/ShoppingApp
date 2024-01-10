@@ -53,8 +53,45 @@ public class UserService {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
     }
 
+    public boolean isStrongPassword(String password) {
+        // Check if the password meets the criteria
+        if (password.length() < 8) {
+            System.out.println("Password must be at least 8 characters long.");
+            return false;
+        }
+
+        boolean hasUppercase = false;
+        boolean hasLowercase = false;
+        boolean hasDigit = false;
+
+        for (char ch : password.toCharArray()) {
+            if (Character.isUpperCase(ch)) {
+                hasUppercase = true;
+            } else if (Character.isLowerCase(ch)) {
+                hasLowercase = true;
+            } else if (Character.isDigit(ch)) {
+                hasDigit = true;
+            }
+        }
+
+        if (!hasUppercase) {
+            System.out.println("Password must contain at least one uppercase letter.");
+        }
+
+        if (!hasLowercase) {
+            System.out.println("Password must contain at least one lowercase letter.");
+        }
+
+        if (!hasDigit) {
+            System.out.println("Password must contain at least one digit.");
+        }
+
+        // Return true only if all criteria are met
+        return hasUppercase && hasLowercase && hasDigit;
     }
+
 
 }
