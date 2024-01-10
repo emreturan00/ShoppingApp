@@ -1,5 +1,6 @@
 package com.example.shoppingapp.controller;
 
+import com.example.shoppingapp.HelloApplication;
 import com.example.shoppingapp.models.Order;
 import com.example.shoppingapp.repository.DatabaseAdapter;
 import com.example.shoppingapp.repository.MySqlConnectionAdapter;
@@ -8,13 +9,19 @@ import com.example.shoppingapp.services.UserSession;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 
 public class CarrierController  {
@@ -42,6 +49,13 @@ public class CarrierController  {
     @FXML
     private Tab completedTab;
 
+    @FXML
+    private Text gotouser;
+
+
+
+
+
 
 
 
@@ -63,10 +77,30 @@ public class CarrierController  {
 
     @FXML
     private void initialize() {
+        gotouser.setText("USER: " + UserSession.getInstance().getUsername());
         displayDeliveries(availableScroll,availableContainer,deliveryService.viewAvailabledeliveries(UserSession.getInstance().getUsername()));
         displayDeliveries(currentScroll,currentContainer,deliveryService.viewSelecteddeliveries(UserSession.getInstance().getUsername()));
         displayDeliveries(completedScroll,completedContainer,deliveryService.viewCompleteddeliveries(UserSession.getInstance().getUsername()));
+    }
 
+    @FXML
+    private void handleGotouser(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("CustomerSettings.fxml"));
+            Parent signUpRoot = fxmlLoader.load();
+
+            // Create a new container (e.g., BorderPane) and set the loaded content as its center
+            BorderPane signUpContainer = new BorderPane();
+            signUpContainer.setCenter(signUpRoot);
+
+            Stage signUpStage = new Stage();
+            signUpStage.setScene(new Scene(signUpContainer));
+
+            signUpStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -140,7 +140,7 @@ public class CartService {
                 int orderId = moveItemsToOrders(deliveryTime, carrier, connection);
 
                 // Update product stock based on the cart
-//                updateProductStock(userId, connection);
+                updateProductStock(connection);
 
                 // Clear the user's cart
                 clearUserCart(connection);
@@ -233,16 +233,27 @@ public class CartService {
         }
     }
 
-//    private void updateProductStock(int userId, Connection connection) throws SQLException {
-//        // Update product stock based on the cart
-//        String updateStockQuery = "UPDATE productinfo SET stock = stock - c.quantity FROM cartinfo c WHERE c.user_id = ? AND c.product_id = product.product_id";
-//        try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockQuery)) {
-//            updateStockStatement.setInt(1, userId);
-//
-//            // Execute the update statement
-//            updateStockStatement.executeUpdate();
-//        }
-//    }
+    private void updateProductStock(Connection connection) throws SQLException {
+        // Update product stock based on the cart
+        // Increase the price if the stock goes under the threshold
+        String updateStockAndPriceQuery =
+                "UPDATE productinfo p " +
+                        "JOIN cartinfo c ON p.id = c.product_id " +
+                        "SET p.stock = p.stock - c.quantity, " +
+                        "    p.price = CASE WHEN (p.stock - c.quantity) < p.threshold THEN p.price * 2 ELSE p.price END " +
+                        "WHERE c.user_id = ?";
+
+        try (PreparedStatement updateStockAndPriceStatement = connection.prepareStatement(updateStockAndPriceQuery)) {
+            int userId = UserSession.getInstance().getUserId();
+            updateStockAndPriceStatement.setInt(1, userId);
+
+            // Execute the update statement
+            updateStockAndPriceStatement.executeUpdate();
+        }
+    }
+
+
+
 
     private void clearUserCart(Connection connection) throws SQLException {
         // Clear the user's cart

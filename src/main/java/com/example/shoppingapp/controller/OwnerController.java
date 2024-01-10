@@ -7,6 +7,7 @@ import com.example.shoppingapp.repository.DatabaseAdapter;
 import com.example.shoppingapp.repository.MySqlConnectionAdapter;
 import com.example.shoppingapp.services.OrderService;
 import com.example.shoppingapp.services.ProductService;
+import com.example.shoppingapp.services.UserSession;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -129,6 +130,7 @@ public class OwnerController {
 
     @FXML
     private void initialize() {
+        gotouser.setText("USER: " + UserSession.getInstance().getUsername());
         displayProducts(ordersScroll, ordersContainer, orderService.viewOrdersbyid());
         ObservableList<String> typeOptions = FXCollections.observableArrayList("emrekargo", "suratkargo", "ups");
 

@@ -53,22 +53,8 @@ public class UserServiceController {
     @FXML
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
 
-    //-------------------------------------------------------
 
-    @FXML
-    private TextField UpdateUsernameField;
 
-    @FXML
-    private TextField UpdatepasswordField;
-
-    @FXML
-    private TextField UpdateadressField;
-
-    @FXML
-    private Text UpdateweakText;
-
-    @FXML
-    private Text UpdatetakenUsername;
 
     DatabaseAdapter databaseAdapter = new MySqlConnectionAdapter();
     UserService userService = new UserService(databaseAdapter);
@@ -77,6 +63,8 @@ public class UserServiceController {
     protected void initialize(){
         ObservableList<String> typeOptions = FXCollections.observableArrayList("owner", "customer", "carrier");
         choiceBox.setItems(typeOptions);
+
+
     }
 
     @FXML
@@ -103,6 +91,8 @@ public class UserServiceController {
         }
 
 
+
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(whatScene));
             Parent signUpRoot = fxmlLoader.load();
@@ -120,6 +110,8 @@ public class UserServiceController {
             e.printStackTrace();
         }
     }
+
+
 
     @FXML
     private void handleSignup() {
@@ -163,25 +155,6 @@ public class UserServiceController {
         }
     }
 
-    @FXML
-    private void handleUpdate(){
-        String newUsername = UpdateUsernameField.getText();
-        String newPassword = UpdatepasswordField.getText();
-        String newAdress = UpdateadressField.getText();
 
-        if(userService.isStrongPassword(newPassword) && !userService.isUsernameTaken(newUsername) && !newAdress.isEmpty()){
-            UpdateweakText.setVisible(false);
-            UpdatetakenUsername.setVisible(false);
-            userService.updateUserInfo(newUsername, newPassword, newAdress);
-
-        }
-        else if (userService.isUsernameTaken(newUsername)) {
-            UpdatetakenUsername.setVisible(true);
-        }
-        else if (!userService.isStrongPassword(newPassword)){
-            UpdateweakText.setVisible(true);
-        }
-
-    }
 
 }

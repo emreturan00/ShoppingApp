@@ -8,6 +8,7 @@ import com.example.shoppingapp.repository.MySqlConnectionAdapter;
 import com.example.shoppingapp.services.CartService;
 import com.example.shoppingapp.services.ProductService;
 import com.example.shoppingapp.services.UserService;
+import com.example.shoppingapp.services.UserSession;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -132,6 +133,7 @@ public class ShoppingController {
 
     @FXML
     private void initialize() {
+        gotouser.setText("USER: " + UserSession.getInstance().getUsername());
         displayProducts(allScroll, productContainer, productService.viewAvailableProducts());
         displayProducts(fruitsScroll, productContainerFruits, productService.getProductsByType("meyve"));
         displayProducts(vegetablesScroll, productContainerVegetables, productService.getProductsByType("ayicik"));
