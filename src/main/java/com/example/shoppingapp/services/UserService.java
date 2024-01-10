@@ -40,7 +40,9 @@ public class UserService {
 
                 if (resultSet.next()) {
                     int loggedInUserId = resultSet.getInt("id");
-                    UserSession.getInstance().setUserId(loggedInUserId);
+                    String loggedInUsername = resultSet.getString("username");
+                    String loggedInRole = resultSet.getString("role");
+                    UserSession.getInstance().setUserData(loggedInUserId, loggedInUsername, loggedInRole);
                     System.out.println("User signed in successfully!");
                     return true;
                 } else {

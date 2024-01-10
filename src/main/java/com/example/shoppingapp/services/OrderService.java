@@ -33,12 +33,13 @@ public class OrderService {
                 boolean isDelivered = resultSet.getBoolean("isDelivered");
                 double totalCost = resultSet.getDouble("totalCost");
                 String productIdsCSV = resultSet.getString("products");
+                boolean isSelected = resultSet.getBoolean("isSelected");
 
                 // Convert product IDs from CSV to a list of integers
                 List<Integer> productIds = convertCSVToList(productIdsCSV);
 
                 // Create an Order object and add it to the list
-                Order order = new Order(orderId, UserSession.getInstance().getUserId(), orderTime, deliveryTime, productIds.toString(), carrier, isDelivered, totalCost);
+                Order order = new Order(orderId, UserSession.getInstance().getUserId(), orderTime, deliveryTime, productIds.toString(), carrier, isDelivered, totalCost,isSelected);
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -81,12 +82,13 @@ public class OrderService {
                     boolean isDelivered = resultSet.getBoolean("isDelivered");
                     double totalCost = resultSet.getDouble("totalCost");
                     String productIdsCSV = resultSet.getString("products");
+                    boolean isSelected = resultSet.getBoolean("isSelected");
 
                     // Convert product IDs from CSV to a list of integers
                     List<Integer> productIds = convertCSVToList(productIdsCSV);
 
                     // Create an Order object and add it to the list
-                    Order order = new Order(orderId, UserSession.getInstance().getUserId(), orderTime, deliveryTime, productIds.toString(), carrier, isDelivered, totalCost);
+                    Order order = new Order(orderId, UserSession.getInstance().getUserId(), orderTime, deliveryTime, productIds.toString(), carrier, isDelivered, totalCost,isSelected);
                     orders.add(order);
                 }
             }

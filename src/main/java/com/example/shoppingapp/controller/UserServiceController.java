@@ -4,12 +4,16 @@ import com.example.shoppingapp.HelloApplication;
 import com.example.shoppingapp.repository.DatabaseAdapter;
 import com.example.shoppingapp.repository.MySqlConnectionAdapter;
 import com.example.shoppingapp.services.UserService;
+import com.example.shoppingapp.services.UserSession;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -35,8 +39,17 @@ public class UserServiceController {
     @FXML
     private Button CompleteButton;
 
+    @FXML
+    private ChoiceBox<String> choiceBox = new ChoiceBox<>();
+
     DatabaseAdapter databaseAdapter = new MySqlConnectionAdapter();
     UserService userService = new UserService(databaseAdapter);
+
+    @FXML
+    protected void initialize(){
+        ObservableList<String> typeOptions = FXCollections.observableArrayList("owner", "customer", "carrier");
+        choiceBox.setItems(typeOptions);
+    }
 
     @FXML
     protected void handleLogin(ActionEvent actionEvent) {
@@ -44,13 +57,26 @@ public class UserServiceController {
         String password = passwordField.getText();
 
         userService.signIn(username,password);
+        System.out.println(UserSession.getInstance().getUsername());
         Stage currentStage = (Stage) usernameField.getScene().getWindow();
 
         currentStage.close();
 
+        String whatScene;
+
+        if ("carrier".equals(UserSession.getInstance().getRole())){
+            whatScene = "Carrier.fxml";
+            }
+        else if ("customer".equals(UserSession.getInstance().getRole())) {
+            whatScene = "ShoppingPage.fxml";
+        }
+        else {
+            whatScene = "Owner.fxml";
+        }
+
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("ShoppingPage.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(whatScene));
             Parent signUpRoot = fxmlLoader.load();
 
             // Create a new container (e.g., BorderPane) and set the loaded content as its center
@@ -58,7 +84,6 @@ public class UserServiceController {
             signUpContainer.setCenter(signUpRoot);
 
             Stage signUpStage = new Stage();
-            signUpStage.setTitle("Shopping");
             signUpStage.setScene(new Scene(signUpContainer));
 
             signUpStage.show();
@@ -89,10 +114,11 @@ public class UserServiceController {
 
     @FXML
     private void handleComplete() {
+
         String username = usernameFieldDone.getText();
         String password = passwordFieldDone.getText();
 
-        userService.signUp(username,password,"customer","essek mahallesi");
+        userService.signUp(username,password, choiceBox.getValue(),"essek mahallesi");
 
         Stage currentStage = (Stage) usernameFieldDone.getScene().getWindow();
 

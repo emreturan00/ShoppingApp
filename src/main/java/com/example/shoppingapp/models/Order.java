@@ -12,9 +12,10 @@ public class Order {
     private String carrier;
     private boolean isdelivered;
     private double totalcost;
+    private boolean isSelected;
 
 
-    public Order(int orderId, int userID, String orderTime, String deliveryTime, String products, String carrier, boolean isdelivered, double totalcost) {
+    public Order(int orderId, int userID, String orderTime, String deliveryTime, String products, String carrier, boolean isdelivered, double totalcost, boolean isSelected) {
         this.orderId = orderId;
         this.userID = userID;
         this.orderTime = orderTime;
@@ -23,6 +24,7 @@ public class Order {
         this.carrier = carrier;
         this.isdelivered = isdelivered;
         this.totalcost = totalcost;
+        this.isSelected = isSelected;
     }
 
 
@@ -90,6 +92,14 @@ public class Order {
         this.totalcost = totalcost;
     }
 
+    public boolean getisSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -101,6 +111,7 @@ public class Order {
                 ", carrier='" + carrier + '\'' +
                 ", isdelivered=" + isdelivered +
                 ", totalcost=" + totalcost +
+                ", isselected=" + isSelected +
                 '}';
     }
 }

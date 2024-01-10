@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TextField?>
@@ -8,15 +12,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TitledPane fx:controller="com.example.shoppingapp.controller.UserServiceController" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" text="Signup" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1">
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" text="Signup" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.UserServiceController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="540" prefWidth="960">
          <children>
             <Text layoutX="116.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" />
-            <TextField fx:id="usernameFieldDone" layoutX="175.0" layoutY="138.0" />
+            <TextField fx:id="usernameFieldDone" layoutX="191.0" layoutY="134.0" />
             <Text layoutX="117.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
-            <TextField fx:id="passwordFieldDone" layoutX="175.0" layoutY="174.0" />
-            <Button layoutX="223.0" layoutY="212.0" mnemonicParsing="false" text="Complete" onAction="#handleComplete" />
+            <TextField fx:id="passwordFieldDone" layoutX="191.0" layoutY="169.0" />
+            <Button layoutX="223.0" layoutY="212.0" mnemonicParsing="false" onAction="#handleComplete" text="Complete" />
 <!--            <Button layoutX="226.0" layoutY="268.0" mnemonicParsing="false" text="Login" />-->
 <!--            <Text layoutX="150.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account? Press login." />-->
             <Text layoutX="197.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create an account.">
@@ -24,8 +28,8 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <ChoiceBox layoutX="174.0" layoutY="105.0" prefWidth="150.0" />
             <Text layoutX="100.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Role:" />
+            <ChoiceBox fx:id="choiceBox" layoutX="191.0" layoutY="101.0" prefWidth="150.0" />
 <!--            <Text fill="RED" layoutX="342.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username is taken, try again." underline="true" />-->
 <!--            <Text fill="RED" layoutX="342.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Include punctuations(*-.! etc.) and numbers" underline="true" />-->
          </children></AnchorPane>
