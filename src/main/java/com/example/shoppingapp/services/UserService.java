@@ -12,6 +12,7 @@ public class UserService {
     }
 
     public boolean signUp(String username, String password, String role , String adress) {
+
         try (Connection connection = databaseAdapter.getConnection())  {
             String query = "INSERT INTO userinfo (username, password, role,adress) VALUES (?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -92,6 +93,49 @@ public class UserService {
         // Return true only if all criteria are met
         return hasUppercase && hasLowercase && hasDigit;
     }
+
+    public boolean isUsernameTaken(String username) {
+        try (Connection connection = databaseAdapter.getConnection()) {
+            String query = "SELECT COUNT(*) FROM userinfo WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, username);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        int count = resultSet.getInt(1);
+                        return count > 0; // If count is greater than 0, username is taken
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean updateUserInfo(String newUsername, String newPassword, String newAddress) {
+        try (Connection connection = databaseAdapter.getConnection()) {
+            String query = "UPDATE userinfo SET username = ?, password = ?, adress = ? WHERE id = " + UserSession.getInstance().getUserId();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, newUsername);
+                preparedStatement.setString(2, newPassword);
+                preparedStatement.setString(3, newAddress);
+
+                int rowsUpdated = preparedStatement.executeUpdate();
+
+                if (rowsUpdated > 0) {
+                    System.out.println("User information updated successfully!");
+                    return true;
+                } else {
+                    System.out.println("User not found or information not updated.");
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
 
 }

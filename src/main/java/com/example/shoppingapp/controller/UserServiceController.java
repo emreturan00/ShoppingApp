@@ -38,6 +38,9 @@ public class UserServiceController {
     @FXML
     private Text weakText;
 
+    @FXML
+    private Text takenUsername;
+
 
 
     @FXML
@@ -49,6 +52,23 @@ public class UserServiceController {
 
     @FXML
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
+
+    //-------------------------------------------------------
+
+    @FXML
+    private TextField UpdateUsernameField;
+
+    @FXML
+    private TextField UpdatepasswordField;
+
+    @FXML
+    private TextField UpdateadressField;
+
+    @FXML
+    private Text UpdateweakText;
+
+    @FXML
+    private Text UpdatetakenUsername;
 
     DatabaseAdapter databaseAdapter = new MySqlConnectionAdapter();
     UserService userService = new UserService(databaseAdapter);
@@ -122,19 +142,44 @@ public class UserServiceController {
 
     @FXML
     private void handleComplete() {
-
+        takenUsername.setVisible(false);
+        weakText.setVisible(false);
         String username = usernameFieldDone.getText();
         String password = passwordFieldDone.getText();
         String adress = adressFieldDone.getText();
 
-        if(userService.isStrongPassword(password)){
+        if(userService.isStrongPassword(password) && !userService.isUsernameTaken(username)){
             weakText.setVisible(false);
+            takenUsername.setVisible(false);
             userService.signUp(username,password, choiceBox.getValue(),adress);
             Stage currentStage = (Stage) usernameFieldDone.getScene().getWindow();
             currentStage.close();
         }
-        else{
+         else if (userService.isUsernameTaken(username)) {
+            takenUsername.setVisible(true);
+            }
+        else if (!userService.isStrongPassword(password)){
             weakText.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void handleUpdate(){
+        String newUsername = UpdateUsernameField.getText();
+        String newPassword = UpdatepasswordField.getText();
+        String newAdress = UpdateadressField.getText();
+
+        if(userService.isStrongPassword(newPassword) && !userService.isUsernameTaken(newUsername) && !newAdress.isEmpty()){
+            UpdateweakText.setVisible(false);
+            UpdatetakenUsername.setVisible(false);
+            userService.updateUserInfo(newUsername, newPassword, newAdress);
+
+        }
+        else if (userService.isUsernameTaken(newUsername)) {
+            UpdatetakenUsername.setVisible(true);
+        }
+        else if (!userService.isStrongPassword(newPassword)){
+            UpdateweakText.setVisible(true);
         }
 
     }

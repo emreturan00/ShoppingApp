@@ -1,5 +1,6 @@
 package com.example.shoppingapp.controller;
 
+import com.example.shoppingapp.HelloApplication;
 import com.example.shoppingapp.models.Order;
 import com.example.shoppingapp.models.Product;
 import com.example.shoppingapp.repository.DatabaseAdapter;
@@ -10,10 +11,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -63,6 +70,9 @@ public class OwnerController {
     @FXML
     private ChoiceBox<String> carrierBox;
 
+    @FXML
+    private Text gotouser;
+
 
 
 
@@ -98,7 +108,22 @@ public class OwnerController {
 
     @FXML
     private void handleGotouser(){
-//        productService.updateProduct();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("CustomerSettings.fxml"));
+            Parent signUpRoot = fxmlLoader.load();
+
+            // Create a new container (e.g., BorderPane) and set the loaded content as its center
+            BorderPane signUpContainer = new BorderPane();
+            signUpContainer.setCenter(signUpRoot);
+
+            Stage signUpStage = new Stage();
+            signUpStage.setScene(new Scene(signUpContainer));
+
+            signUpStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

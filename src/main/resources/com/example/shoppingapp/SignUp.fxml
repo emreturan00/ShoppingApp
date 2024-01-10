@@ -30,7 +30,7 @@
             </Text>
             <Text layoutX="100.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Role:" />
             <ChoiceBox fx:id="choiceBox" layoutX="191.0" layoutY="101.0" prefWidth="150.0" />
-<!--            <Text fill="RED" layoutX="342.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username is taken, try again." underline="true" />-->
+            <Text fx:id="takenUsername" fill="RED" layoutX="342.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username is taken, try again." underline="true" visible="false"/>
             <Text fx:id="weakText" fill="RED" layoutX="342.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Include punctuations(*-.! etc.) and numbers" underline="true" visible="false" />
             <TextField fx:id="adressFieldDone" layoutX="191.0" layoutY="208.0" />
             <Text layoutX="116.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adress" />

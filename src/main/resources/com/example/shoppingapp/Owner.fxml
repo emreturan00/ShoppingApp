@@ -87,6 +87,6 @@
             </Tab>
          </tabs>
       </TabPane>
-      <Text fx:id="gotouser" layoutX="14.0" layoutY="30.0" onMouseClicked="#handleGotouser" strokeType="OUTSIDE" strokeWidth="0.0" text="USER: AYCA" />
+      <Text fx:id="gotouser" layoutX="14.0" layoutY="30.0" onMouseClicked="#handleGotouser" strokeType="OUTSIDE" strokeWidth="0.0" text="USER: " />
    </children>
 </Pane>
