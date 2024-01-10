@@ -160,10 +160,13 @@ public class ShoppingController {
 
         Text nameLabel = new Text("Product Name: " + product.getName());
         Text priceLabel = new Text("Price: " + product.getPrice() + " TL / Kg");
-        ImageView imageView = new ImageView(new Image(new File(product.getImageLocation()).toURI().toString()));
 
-//        imageView.setFitWidth(50);
-//        imageView.setFitHeight(50);
+
+
+        ImageView imageView = new ImageView(new Image(new File(product.getImageLocation()).toURI().toString()));
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+
 
         TextArea quantityTextArea = new TextArea();
         quantityTextArea.setPromptText("Enter quantity");
