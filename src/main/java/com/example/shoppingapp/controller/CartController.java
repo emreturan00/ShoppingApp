@@ -19,10 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -133,38 +130,71 @@ public class CartController {
 
     private VBox createProductBox(CartItem cartItem) {
         VBox productBox = new VBox();
-        productBox.setStyle("-fx-border-color: black; -fx-padding: 10;");
-        productBox.setSpacing(5);
-        productBox.setMaxSize(850,100);
+        productBox.getStyleClass().addAll("product-box", "background-pane"); // Apply the necessary styles
+        productBox.setSpacing(15);
 
+        productBox.setMaxSize(900, 120);
+
+        // ImageView for the product image
+        ImageView imageView = new ImageView(new Image(new File(cartItem.getProduct().getImageLocation()).toURI().toString()));
+        imageView.getStyleClass().add("product-image"); // Apply the product-image class for styling
+        imageView.setFitWidth(100);
+        imageView.setFitHeight(100);
+
+        // VBox for product information
+        VBox productInfo = new VBox();
+        productInfo.getStyleClass().add("product-info"); // Apply the product-info class for styling
 
         Text nameLabel = new Text("Product Name: " + cartItem.getProduct().getName());
+        nameLabel.getStyleClass().add("product-name"); // Apply the product-name class for styling
+
         Text priceLabel = new Text("Price: " + cartItem.getProduct().getPrice() + " TL / Kg");
-        ImageView imageView = new ImageView(new Image(new File(cartItem.getProduct().getImageLocation()).toURI().toString()));
+        priceLabel.getStyleClass().add("product-price"); // Apply the product-price class for styling
 
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
+        HBox infoQuantityBox = new HBox();
+        infoQuantityBox.setAlignment(Pos.CENTER_LEFT);
+        infoQuantityBox.setSpacing(10);
 
+        infoQuantityBox.getChildren().addAll(nameLabel, createSpacer(), priceLabel);
+
+        // Quantity field
         TextArea quantityTextArea = new TextArea();
-        quantityTextArea.setPromptText("Enter quantity");
-        quantityTextArea.setMaxSize(50,50);
-        quantityTextArea.setPrefWidth(50);
+        quantityTextArea.setPromptText("Qty");
+        quantityTextArea.getStyleClass().add("quantity-text-area"); // Apply the quantity-text-area class for styling
 
-        Button removeButton = new Button("remove");
+        // HBox for buttons
+        HBox buttonBox = new HBox();
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+        buttonBox.setSpacing(10);
+
+        Button removeButton = new Button("Remove");
         removeButton.setId("removeButton");
         removeButton.setUserData(cartItem);
+        removeButton.setOnAction(event -> handleRemoveButton(removeButton));
 
-        Button addButton = new Button("Add to Cart");
+        Button addButton = new Button("Update");
         addButton.setId("addButton");
         addButton.setUserData(cartItem.getProduct());
-
         addButton.setOnAction(event -> handleAddButton(quantityTextArea, addButton));
 
-        removeButton.setOnAction(event -> handleRemoveButton(removeButton));
-        productBox.getChildren().addAll(nameLabel, priceLabel, imageView, quantityTextArea, addButton, removeButton);
+        // Making the buttons larger
+        removeButton.getStyleClass().add("large-button");
+        addButton.getStyleClass().add("large-button");
+
+        buttonBox.getChildren().addAll(removeButton, addButton);
+
+        productBox.getChildren().addAll(imageView, infoQuantityBox, quantityTextArea, buttonBox);
 
         return productBox;
     }
+
+    private Region createSpacer() {
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        return spacer;
+    }
+
+
 
 
     private void handleAddButton(TextArea valueText, Button addButton) {

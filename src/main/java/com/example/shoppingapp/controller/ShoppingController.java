@@ -20,6 +20,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -155,33 +156,46 @@ public class ShoppingController {
 
     private VBox createProductBox(Product product) {
         VBox productBox = new VBox();
-        productBox.setStyle("-fx-border-color: black; -fx-padding: 10;");
-        productBox.setSpacing(5);
-        productBox.setMaxSize(850,100);
+        productBox.getStyleClass().add("product-box");
 
+        HBox contentBox = new HBox();
+        contentBox.setAlignment(Pos.TOP_LEFT);
+
+        ImageView imageView = new ImageView(new Image(new File(product.getImageLocation()).toURI().toString()));
+        imageView.setFitWidth(100);
+        imageView.setFitHeight(100);
+
+        VBox productInfo = new VBox();
+        productInfo.getStyleClass().add("product-info");
 
         Text nameLabel = new Text("Product Name: " + product.getName());
         Text priceLabel = new Text("Price: " + product.getPrice() + " TL / Kg");
 
-
-
-        ImageView imageView = new ImageView(new Image(new File(product.getImageLocation()).toURI().toString()));
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
-
+        HBox quantityBox = new HBox();
+        quantityBox.setAlignment(Pos.CENTER_LEFT);
+        quantityBox.getStyleClass().add("quantity-box");
 
         TextArea quantityTextArea = new TextArea();
-        quantityTextArea.setPromptText("Enter quantity");
-        quantityTextArea.setMaxSize(50,50);
-        quantityTextArea.setPrefWidth(50);
+        quantityTextArea.setPromptText("Qty");
+        quantityTextArea.setMaxSize(40, 20);
+        quantityTextArea.setPrefWidth(40);
+        quantityTextArea.setPrefWidth(10);
 
         Button addButton = new Button("Add to Cart");
         addButton.setId("addButton");
+        addButton.getStyleClass().add("button-cart");
         addButton.setUserData(product);
-
         addButton.setOnAction(event -> handleAddButton(quantityTextArea, addButton));
-        productBox.getChildren().addAll(nameLabel, priceLabel, imageView, quantityTextArea, addButton);
+
+        productInfo.getChildren().addAll(nameLabel, priceLabel);
+        quantityBox.getChildren().addAll(quantityTextArea, addButton);
+        contentBox.getChildren().addAll(imageView, productInfo, quantityBox);
+        productBox.getChildren().add(contentBox);
 
         return productBox;
     }
+
+
+
+
 }

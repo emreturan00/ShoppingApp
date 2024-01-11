@@ -18,7 +18,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("ShoppingPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
         stage.setScene(scene);

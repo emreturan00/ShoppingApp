@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="Customer Settings" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.UserSettingsController">
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" text="Customer Settings" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.UserSettingsController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
@@ -20,7 +20,7 @@
             <Button fx:id="updateButton" layoutX="197.0" layoutY="255.0" mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
             <Text layoutX="58.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adress:" />
             <TextField fx:id="UpdateadressField" layoutX="135.0" layoutY="205.0" />
-            <Button fx:id="logoutButton" layoutX="500.0" layoutY="19.0" mnemonicParsing="false" text="Log-out" onAction="#handleLogout"/>
+            <Button fx:id="logoutButton" layoutX="850.0" layoutY="21.0" mnemonicParsing="false" onAction="#handleLogout" text="Log-out" />
          </children></AnchorPane>
   </content>
 </TitledPane>
