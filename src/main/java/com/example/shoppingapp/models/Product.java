@@ -7,7 +7,7 @@ public class Product {
     private int productId;
     private String Name;
     private String type;
-    private int stock;
+    private float stock;
     private double price;
     private String imageLocation;
     private int threshold;
@@ -29,7 +29,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int productId, String name, String type, int stock, double price, String imageLocation, int threshold) {
+    public Product(int productId, String name, String type, float stock, double price, String imageLocation, int threshold) {
         this.productId = productId;
         Name = name;
         this.type = type;
@@ -63,11 +63,11 @@ public class Product {
         this.type = type;
     }
 
-    public int getStock() {
+    public float getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(float stock) {
         this.stock = stock;
     }
 

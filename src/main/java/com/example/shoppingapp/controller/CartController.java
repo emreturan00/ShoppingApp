@@ -117,15 +117,15 @@ public class CartController {
         totalArea.setWrapText(true);
 
         for (CartItem cartItem : cartItems) {
-            summary.appendText("\n" + cartItem.getProduct().getName() + "---- x" +cartItem.getQuantity() + "---- " +cartItem.getProduct().getPrice());
+            summary.appendText("\n" + cartItem.getProduct().getName() + "---- x" + String.format("%.2f", cartItem.getQuantity()) + "---- " + String.format("%.2f",cartItem.getQuantity() * cartItem.getProduct().getPrice()));
             totalPrice += cartItem.getProduct().getPrice() * cartItem.getQuantity();
             VBox productBox = createProductBox(cartItem);
             vBox.getChildren().add(productBox);
         }
         double tax = totalPrice/100;
-        summary.appendText("\n" + "VALUE ADDING TAX 1%: " + tax);
+        summary.appendText("\n" + "VALUE ADDING TAX 1%: " + String.format("%.2f",tax));
         totalPrice += tax;
-        totalArea.setText(totalPrice + "TL");
+        totalArea.setText(String.format("%.2f",totalPrice) + "TL");
 
 
         scrollPane.setContent(vBox);
@@ -142,8 +142,8 @@ public class CartController {
         Text priceLabel = new Text("Price: " + cartItem.getProduct().getPrice() + " TL / Kg");
         ImageView imageView = new ImageView(new Image(new File(cartItem.getProduct().getImageLocation()).toURI().toString()));
 
-//        imageView.setFitWidth(50);
-//        imageView.setFitHeight(50);
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
 
         TextArea quantityTextArea = new TextArea();
         quantityTextArea.setPromptText("Enter quantity");
@@ -154,9 +154,65 @@ public class CartController {
         removeButton.setId("removeButton");
         removeButton.setUserData(cartItem);
 
+        Button addButton = new Button("Add to Cart");
+        addButton.setId("addButton");
+        addButton.setUserData(cartItem.getProduct());
+
+        addButton.setOnAction(event -> handleAddButton(quantityTextArea, addButton));
+
         removeButton.setOnAction(event -> handleRemoveButton(removeButton));
-        productBox.getChildren().addAll(nameLabel, priceLabel, imageView, quantityTextArea, removeButton);
+        productBox.getChildren().addAll(nameLabel, priceLabel, imageView, quantityTextArea, addButton, removeButton);
 
         return productBox;
+    }
+
+
+    private void handleAddButton(TextArea valueText, Button addButton) {
+        try {
+            Product product = (Product) addButton.getUserData();
+            cartService.removeProductFromCart(product.getProductId());
+
+            Scene scene = valueText.getScene();
+
+            // Get the stage from the scene
+            Stage stage = (Stage) scene.getWindow();
+
+            // Close the stage
+            stage.close();
+
+
+
+            // Get the text from valueText
+            String text = valueText.getText();
+
+            // Check if the text is not empty
+            if (!text.isEmpty()) {
+                // Parse the text to an integer
+                float quantity = Float.parseFloat(text);
+
+                // Your existing code to add to the cart
+                CartItem cartItem = new CartItem(product, quantity);
+                cartService.addToCart(cartItem);
+            } else {
+                // Handle the case where the text is empty (show an error message, etc.)
+                System.err.println("Quantity cannot be empty.");
+            }
+
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("ShoppingCart.fxml"));
+            Parent signUpRoot = fxmlLoader.load();
+
+            BorderPane signUpContainer = new BorderPane();
+            signUpContainer.setCenter(signUpRoot);
+
+            Stage signUpStage = new Stage();
+            signUpStage.setScene(new Scene(signUpContainer));
+            signUpStage.show();
+
+        } catch (NumberFormatException e) {
+            // Handle the case where the text is not a valid integer
+            System.err.println("Invalid quantity format. Please enter a valid number.");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

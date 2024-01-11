@@ -7,15 +7,16 @@ import com.example.shoppingapp.services.UserSession;
 public class CartItem {
     private int userId;
     private Product product;
-    private int quantity;
+    private float quantity;
 
-    public CartItem(Product product, int quantity) {
+    public CartItem(Product product, float quantity) {
         this.userId = UserSession.getInstance().getUserId();
         this.product = product;
         this.quantity = quantity;
     }
 
     public CartItem(){
+
     }
 
     @Override
@@ -43,11 +44,11 @@ public class CartItem {
         this.product = product;
     }
 
-    public int getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 }

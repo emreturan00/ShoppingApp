@@ -25,13 +25,13 @@ public class CartService {
                 try (ResultSet resultSet = checkStatement.executeQuery()) {
                     if (resultSet.next()) {
                         // Product is already in the cart, update quantity
-                        int currentQuantity = resultSet.getInt("quantity");
-                        int newQuantity = currentQuantity + cartItem.getQuantity();
+                        float currentQuantity = resultSet.getFloat("quantity");
+                        float newQuantity = currentQuantity + cartItem.getQuantity();
 
                         // Update the quantity in the cart
                         String updateQuery = "UPDATE cartinfo SET quantity = ? WHERE user_id = ? AND product_id = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                            updateStatement.setInt(1, newQuantity);
+                            updateStatement.setFloat(1, newQuantity);
                             updateStatement.setInt(2, cartItem.getUserId());
                             updateStatement.setInt(3, cartItem.getProduct().getProductId());
                             updateStatement.executeUpdate();
@@ -42,7 +42,7 @@ public class CartService {
                         try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                             insertStatement.setInt(1, cartItem.getUserId());
                             insertStatement.setInt(2, cartItem.getProduct().getProductId());
-                            insertStatement.setInt(3, cartItem.getQuantity());
+                            insertStatement.setFloat(3, cartItem.getQuantity());
                             insertStatement.executeUpdate();
                         }
                     }
@@ -67,14 +67,14 @@ public class CartService {
                     while (resultSet.next()) {
                         int user_id = resultSet.getInt("user_id");
                         int product_id = resultSet.getInt("product_id");
-                        int quantity = resultSet.getInt("quantity");
+                        float quantity = resultSet.getFloat("quantity");
 
                         // Create a new CartItem with the retrieved quantity and Product information
                         Product product = new Product();
                         product.setProductId(product_id);
                         product.setName(resultSet.getString("name"));
                         product.setType(resultSet.getString("type"));
-                        product.setStock(resultSet.getInt("stock"));
+                        product.setStock(resultSet.getFloat("stock"));
                         product.setPrice(resultSet.getDouble("price"));
                         product.setImageLocation(resultSet.getString("imageLocation"));
                         product.setThreshold(resultSet.getInt("threshold"));
@@ -96,12 +96,12 @@ public class CartService {
     }
 
 
-    public void updateCartItemQuantity(int productId, int newQuantity) {
+    public void updateCartItemQuantity(int productId, float newQuantity) {
         try (Connection connection = databaseAdapter.getConnection()) {
             // Update the quantity in the cartinfo table
             String updateQuery = "UPDATE cartinfo SET quantity = ? WHERE user_id = ? AND product_id = ?";
             try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                updateStatement.setInt(1, newQuantity);
+                updateStatement.setFloat(1, newQuantity);
                 updateStatement.setInt(2, UserSession.getInstance().getUserId());
                 updateStatement.setInt(3, productId);
 
@@ -266,7 +266,7 @@ public class CartService {
                     try (ResultSet resultSet = selectStockStatement.executeQuery()) {
                         while (resultSet.next()) {
                             int productId = resultSet.getInt("id");
-                            int updatedStock = resultSet.getInt("stock");
+                            float updatedStock = resultSet.getFloat("stock");
 
                             // Print or handle the updated stock for each affected product
                             System.out.println("Product ID: " + productId + ", Updated Stock: " + updatedStock);

@@ -83,7 +83,7 @@ public class ProductService {
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, product.getName());
                 preparedStatement.setString(2, product.getType());
-                preparedStatement.setInt(3, product.getStock());
+                preparedStatement.setFloat(3, product.getStock());
                 preparedStatement.setDouble(4, product.getPrice());
                 preparedStatement.setString(5, product.getImageLocation());
                 preparedStatement.setInt(6, product.getThreshold());
@@ -119,7 +119,7 @@ public class ProductService {
             String query = "UPDATE productinfo SET type = ?, stock = ?, price = ?, imageLocation = ?, threshold = ? WHERE Name = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, product.getType());
-                preparedStatement.setInt(2, product.getStock());
+                preparedStatement.setFloat(2, product.getStock());
                 preparedStatement.setDouble(3, product.getPrice());
                 preparedStatement.setString(4, product.getImageLocation());
                 preparedStatement.setInt(5, product.getThreshold());

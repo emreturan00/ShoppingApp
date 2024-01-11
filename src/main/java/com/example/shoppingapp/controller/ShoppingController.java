@@ -112,7 +112,7 @@ public class ShoppingController {
             // Check if the text is not empty
             if (!text.isEmpty()) {
                 // Parse the text to an integer
-                int quantity = Integer.parseInt(text);
+                float quantity = Float.parseFloat(text);
 
                 // Your existing code to add to the cart
                 Product product = (Product) addButton.getUserData();
