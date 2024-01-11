@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
@@ -7,18 +12,28 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<TitledPane  fx:controller="com.example.shoppingapp.controller.UserServiceController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" text="Login" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1">
+<TitledPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" text="Login" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.UserServiceController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="540" prefWidth="960">
          <children>
-            <Text layoutX="208.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" />
-             <Button fx:id="loginButton" layoutX="272.0" layoutY="227.0" mnemonicParsing="false" text="Login" onAction="#handleLogin"/>
-            <TextField fx:id="usernameField" layoutX="272.0" layoutY="111.0" />
-            <Text layoutX="208.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
-            <TextField fx:id="passwordField" layoutX="272.0" layoutY="153.0" />
-            <Button layoutX="271.0" layoutY="288.0" mnemonicParsing="false" text="Signup" onAction="#handleSignup"/>
-            <Text layoutX="219.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No account? Press Signup." />
+            <ImageView fitHeight="510.0" fitWidth="960.0" layoutX="-3.0" layoutY="-1.0" pickOnBounds="true" >
+               <image>
+                   <Image url="file:/C:/Users/emre/Desktop/vivid-blurred-colorful-background.jpg" />
+               </image>
+            </ImageView>
+            <Text layoutX="260.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:">
+               <font>
+                  <Font size="30.0" />
+               </font></Text>
+             <Button fx:id="loginButton" layoutX="477.0" layoutY="254.0" mnemonicParsing="false" onAction="#handleLogin" text="Login" />
+            <TextField fx:id="usernameField" layoutX="418.0" layoutY="150.0" />
+            <Text layoutX="260.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:">
+               <font>
+                  <Font size="30.0" />
+               </font></Text>
+            <TextField fx:id="passwordField" layoutX="418.0" layoutY="192.0" />
+            <Button layoutX="476.0" layoutY="315.0" mnemonicParsing="false" onAction="#handleSignup" text="Signup" />
+            <Text layoutX="424.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No account? Press Signup." />
 <!--            <Text fill="RED" layoutX="208.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Incorrect input, please try again." underline="true">-->
 <!--               <font>-->
 <!--                  <Font name="System Bold" size="12.0" />-->

@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import java.net.URL?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.CarrierController">
+   <stylesheets>
+      <URL value="@carrier.css" />
+   </stylesheets>
    <children>
+      <ImageView fitHeight="540.0" fitWidth="960.0" pickOnBounds="true">
+         <image>
+            <Image url="file:/C:/Users/emre/Desktop/vivid-blurred-colorful-background.jpg" />
+         </image>
+      </ImageView>
       <TabPane layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="960" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab fx:id="currentTab" text="Current Deliveries">

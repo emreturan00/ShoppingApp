@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -7,11 +8,16 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.OwnerController">
    <children>
+      <ImageView fitHeight="540.0" fitWidth="960.0" pickOnBounds="true">
+         <image>
+            <Image url="file:/C:/Users/emre/Desktop/vivid-blurred-colorful-background.jpg" />
+         </image>
+      </ImageView>
       <TabPane layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="960" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab text="Product Operations">
                <content>
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0">
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="451.0" prefWidth="960.0">
                      <children>
                         <TextField fx:id="name" layoutX="48.0" layoutY="87.0" promptText="name" />
                         <TextField fx:id="type" layoutX="48.0" layoutY="132.0" promptText="type" />

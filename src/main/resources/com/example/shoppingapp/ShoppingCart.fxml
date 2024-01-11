@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
@@ -14,8 +15,13 @@
    <right>
       <TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="308.0" text="Check Out Summary" BorderPane.alignment="CENTER">
          <content>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="308.0">
                <children>
+                  <ImageView fitHeight="510.0" fitWidth="308.0" pickOnBounds="true">
+                     <image>
+                        <Image url="file:/C:/Users/emre/Desktop/vivid-blurred-colorful-background.jpg" />
+                     </image>
+                  </ImageView>
                   <Text layoutX="36.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="checkout-summary-text" text="SUMMARY">
                      <font>
                         <Font name="System Bold" size="30.0" />
@@ -33,11 +39,13 @@
                   <TextArea fx:id="summary" layoutX="27.0" layoutY="72.0" prefHeight="219.0" prefWidth="252.0">
                      <font>
                         <Font name="Comic Sans MS Italic" size="15.0" />
-                     </font></TextArea>
+                     </font>
+                  </TextArea>
                   <TextArea fx:id="totalArea" layoutX="154.0" layoutY="296.0" prefHeight="36.0" prefWidth="126.0">
                      <font>
                         <Font name="Comic Sans MS Bold Italic" size="18.0" />
-                     </font></TextArea>
+                     </font>
+                  </TextArea>
                </children>
             </AnchorPane>
          </content>

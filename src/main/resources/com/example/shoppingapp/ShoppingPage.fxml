@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
 <?import java.net.URL?>
+
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.ShoppingController">
    <stylesheets>
-      <URL value = "@shopping.css" />
+      <URL value="@shopping.css" />
    </stylesheets>
    <children>
+      <ImageView fitHeight="540.0" fitWidth="960.0" pickOnBounds="true">
+         <image>
+            <Image url="file:/C:/Users/emre/Desktop/vivid-blurred-colorful-background.jpg" />
+         </image>
+      </ImageView>
       <TabPane layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="960" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab fx:id="allTab" text="All">
@@ -49,11 +56,6 @@
          </tabs>
       </TabPane>
       <Button fx:id="gotocart" layoutX="855.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleGotocart" text="CART" />
-      <Text fill="#2c4dd1" layoutX="191.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SHOPPING PAGE">
-         <font>
-            <Font size="29.0" />
-         </font>
-      </Text>
       <Text fx:id="gotouser" layoutX="14.0" layoutY="30.0" onMouseClicked="#handleGotouser" strokeType="OUTSIDE" strokeWidth="0.0" text="USER: " />
    </children>
 </Pane>

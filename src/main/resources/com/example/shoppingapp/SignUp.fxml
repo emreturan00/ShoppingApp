@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -16,24 +17,41 @@
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="540" prefWidth="960">
          <children>
-            <Text layoutX="116.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" />
-            <TextField fx:id="usernameFieldDone" layoutX="191.0" layoutY="134.0" />
-            <Text layoutX="117.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
-            <TextField fx:id="passwordFieldDone" layoutX="191.0" layoutY="169.0" />
-            <Button layoutX="236.0" layoutY="254.0" mnemonicParsing="false" onAction="#handleComplete" text="Complete" />
+            <ImageView fitHeight="510.0" fitWidth="960.0" pickOnBounds="true">
+               <image>
+                  <Image url="file:/C:/Users/emre/Desktop/vivid-blurred-colorful-background.jpg" />
+               </image>
+            </ImageView>
+            <Text layoutX="194.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:">
+               <font>
+                  <Font size="30.0" />
+               </font></Text>
+            <TextField fx:id="usernameFieldDone" layoutX="381.0" layoutY="179.0" />
+            <Text layoutX="195.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:">
+               <font>
+                  <Font size="30.0" />
+               </font></Text>
+            <TextField fx:id="passwordFieldDone" layoutX="381.0" layoutY="214.0" />
+            <Button layoutX="426.0" layoutY="299.0" mnemonicParsing="false" onAction="#handleComplete" text="Complete" />
 <!--            <Button layoutX="226.0" layoutY="268.0" mnemonicParsing="false" text="Login" />-->
 <!--            <Text layoutX="150.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account? Press login." />-->
-            <Text layoutX="197.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create an account.">
+            <Text layoutX="349.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create an account.">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="30.0" />
                </font>
             </Text>
-            <Text layoutX="100.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Role:" />
-            <ChoiceBox fx:id="choiceBox" layoutX="191.0" layoutY="101.0" prefWidth="150.0" />
-            <Text fx:id="takenUsername" fill="RED" layoutX="342.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username is taken, try again." underline="true" visible="false"/>
-            <Text fx:id="weakText" fill="RED" layoutX="342.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Include punctuations(*-.! etc.) and numbers" underline="true" visible="false" />
-            <TextField fx:id="adressFieldDone" layoutX="191.0" layoutY="208.0" />
-            <Text layoutX="116.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adress" />
+            <Text layoutX="194.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Role:">
+               <font>
+                  <Font size="30.0" />
+               </font></Text>
+            <ChoiceBox fx:id="choiceBox" layoutX="381.0" layoutY="146.0" prefWidth="150.0" />
+            <Text fx:id="takenUsername" fill="RED" layoutX="532.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username is taken, try again." underline="true" visible="false" />
+            <Text fx:id="weakText" fill="RED" layoutX="532.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Include punctuations(*-.! etc.) and numbers" underline="true" visible="false" />
+            <TextField fx:id="adressFieldDone" layoutX="381.0" layoutY="253.0" />
+            <Text layoutX="194.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adress:">
+               <font>
+                  <Font size="30.0" />
+               </font></Text>
          </children></AnchorPane>
   </content>
 </TitledPane>
