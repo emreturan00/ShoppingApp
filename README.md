@@ -1,5 +1,6 @@
 AUTHOR: EMRE TURAN
-to use the application, make sure mysql database has needed tables that can be created with below queries:
+to use the application, 
+make sure mysql database has needed tables that can be created with below queries:
 
 CREATE TABLE cartinfo (
   user_id int DEFAULT NULL,
