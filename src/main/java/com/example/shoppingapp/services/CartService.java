@@ -137,16 +137,18 @@ public class CartService {
 
             try {
                 // Insert items from the cart into the orders table
-                int orderId = moveItemsToOrders(deliveryTime, carrier, connection);
+                int orderId = moveItemsToOrders(deliveryTime, carrier);
 
                 // Update product stock based on the cart
-                updateProductStock(connection);
+                if(updateStockAndPrice()){
 
-                // Clear the user's cart
-                clearUserCart(connection);
+                    // Clear the user's cart
+                    clearUserCart();
 
-                // Commit the transaction
-                connection.commit();
+                    // Commit the transaction
+                    connection.commit();
+                }
+
             } catch (SQLException e) {
                 // Handle exceptions, log errors, and roll back the transaction in case of failure
                 connection.rollback();
@@ -157,10 +159,10 @@ public class CartService {
         }
     }
 
-    private int moveItemsToOrders(String deliveryTime, String carrier, Connection connection) throws SQLException {
+    private int moveItemsToOrders(String deliveryTime, String carrier) throws SQLException {
         // Insert items from the cart into the orders table
         String insertOrderQuery = "INSERT INTO orderinfo (userId, orderTime, deliveryTime, carrier, isDelivered, totalCost, products) VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)";
-        try (PreparedStatement insertOrderStatement = connection.prepareStatement(insertOrderQuery, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement insertOrderStatement = databaseAdapter.getConnection().prepareStatement(insertOrderQuery, Statement.RETURN_GENERATED_KEYS)) {
             // Set values for the columns
             int userId = UserSession.getInstance().getUserId();
             insertOrderStatement.setInt(1, userId);
@@ -169,11 +171,11 @@ public class CartService {
             insertOrderStatement.setBoolean(4, false);
 
             // Calculate total cost based on the cart items
-            double totalCost = calculateTotalCost(connection);
+            double totalCost = calculateTotalCost(databaseAdapter.getConnection());
             insertOrderStatement.setDouble(5, totalCost);
 
             // Retrieve the list of product IDs from the cart
-            List<Integer> productIds = getCartProductIds(userId, connection);
+            List<Integer> productIds = getCartProductIds(userId, databaseAdapter.getConnection());
 
             // Convert the list of product IDs to a CSV string
             String productsCsv = productIds.stream()
@@ -233,37 +235,100 @@ public class CartService {
         }
     }
 
-    private void updateProductStock(Connection connection) throws SQLException {
-        // Update product stock based on the cart
-        // Increase the price if the stock goes under the threshold
+
+    private boolean updateStockAndPrice() throws SQLException {
         String updateStockAndPriceQuery =
                 "UPDATE productinfo p " +
                         "JOIN cartinfo c ON p.id = c.product_id " +
-                        "SET p.stock = p.stock - c.quantity, " +
-                        "    p.price = CASE WHEN (p.stock - c.quantity) < p.threshold THEN p.price * 2 ELSE p.price END " +
-                        "WHERE c.user_id = ?";
+                        "SET p.stock = CASE WHEN (p.stock - c.quantity) >= 0 THEN (p.stock - c.quantity) ELSE -1 END, " +
+                        "    p.price = CASE " +
+                        "                 WHEN (p.stock - c.quantity) <= p.threshold AND NOT p.doubled_price THEN p.price * 2 " +
+                        "                 ELSE p.price " +
+                        "             END, " +
+                        "    p.doubled_price = CASE WHEN (p.stock - c.quantity) <= p.threshold THEN true ELSE p.doubled_price END " +
+                        "WHERE (p.stock - c.quantity) >= 0";
 
-        try (PreparedStatement updateStockAndPriceStatement = connection.prepareStatement(updateStockAndPriceQuery)) {
-            int userId = UserSession.getInstance().getUserId();
-            updateStockAndPriceStatement.setInt(1, userId);
 
+
+
+        try (PreparedStatement updateStockAndPriceStatement = databaseAdapter.getConnection().prepareStatement(updateStockAndPriceQuery)) {
             // Execute the update statement
-            updateStockAndPriceStatement.executeUpdate();
+            int rowsAffected = updateStockAndPriceStatement.executeUpdate();
+
+            // Check if any rows were affected (i.e., the update was successful)
+            if (rowsAffected > 0) {
+                // Query to retrieve the updated stock values for the affected products
+                String selectStockQuery = "SELECT id, stock FROM productinfo p WHERE EXISTS " +
+                        "(SELECT 1 FROM cartinfo c WHERE p.id = c.product_id AND (p.stock - c.quantity) >= 0)";
+
+                try (PreparedStatement selectStockStatement = databaseAdapter.getConnection().prepareStatement(selectStockQuery)) {
+                    // Execute the select statement
+                    try (ResultSet resultSet = selectStockStatement.executeQuery()) {
+                        while (resultSet.next()) {
+                            int productId = resultSet.getInt("id");
+                            int updatedStock = resultSet.getInt("stock");
+
+                            // Print or handle the updated stock for each affected product
+                            System.out.println("Product ID: " + productId + ", Updated Stock: " + updatedStock);
+
+                            // Return false if any updated stock is < 0
+                            if (updatedStock < 0) {
+                                return false;
+                            }
+                        }
+
+                        // Return true if all updated stocks are >= 0
+                        return true;
+                    }
+                }
+            }
         }
+
+        // Return false if the update was not successful or the stock is < 0
+        return false;
     }
 
 
 
 
-    private void clearUserCart(Connection connection) throws SQLException {
+
+
+
+    private void clearUserCart() throws SQLException {
         // Clear the user's cart
         String clearCartQuery = "DELETE FROM cartinfo WHERE user_id = ?";
-        try (PreparedStatement clearCartStatement = connection.prepareStatement(clearCartQuery)) {
+        try (PreparedStatement clearCartStatement = databaseAdapter.getConnection().prepareStatement(clearCartQuery)) {
             clearCartStatement.setInt(1, UserSession.getInstance().getUserId());
 
             // Execute the delete statement
             clearCartStatement.executeUpdate();
         }
     }
+
+
+
+//    public void cancelOrder(int orderId) throws SQLException {
+//        String cancelOrderQuery =
+//                "UPDATE productinfo p " +
+//                        "JOIN orderinfo od ON p.id = od.product_id " +
+//                        "SET p.stock = p.stock + od.quantity, " +
+//                        "    p.doubled_price = CASE WHEN p.stock > p.threshold THEN p.doubled_price ELSE false END " +
+//                        "WHERE od.orderId = ?";
+//
+//        try (PreparedStatement cancelOrderStatement = databaseAdapter.getConnection().prepareStatement(cancelOrderQuery)) {
+//            // Set the order ID parameter
+//            cancelOrderStatement.setInt(1, orderId);
+//
+//            // Execute the cancel order statement
+//            int rowsAffected = cancelOrderStatement.executeUpdate();
+//
+//            // Print or handle the result
+//            System.out.println(rowsAffected + " rows updated for canceled order: " + orderId);
+//        } catch (SQLException e) {
+//            // Handle the exception
+//            e.printStackTrace();
+//        }
+//    }
+
 
 }

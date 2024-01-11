@@ -19,6 +19,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class OrderController {
@@ -30,9 +32,10 @@ public class OrderController {
     @FXML
     private ScrollPane allOrder;
 
-    private void handleRemoveButton(Button button){
-
-
+    private void handlecancelButton(Button button) throws SQLException {
+        Order order = (Order) button.getUserData();
+        CartService cartService = new CartService(databaseAdapter);
+//        cartService.cancelOrder(order.getOrderId());
 
     }
     @FXML
@@ -65,15 +68,23 @@ public class OrderController {
         Text carrierName = new Text("Carrier Name: " + orderItem.getCarrier());
         Text deliveryStatus = new Text("Delivery Status: " + orderItem.isIsdelivered());
 
-        Button removeButton = new Button("remove");
-        removeButton.setId("removeButton");
-        removeButton.setUserData(orderItem);
-
-        removeButton.setOnAction(event -> handleRemoveButton(removeButton));
-        productBox.getChildren().addAll(orderID,orderPrice,orderTime,deliveryTime,carrierName,deliveryStatus);
+        if (!orderItem.isIsdelivered()){
+            Button cancelButton = new Button("cancel");
+            cancelButton.setId("cancelButton");
+            cancelButton.setUserData(orderItem);
+            cancelButton.setOnAction(event -> {
+                try {
+                    handlecancelButton(cancelButton);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            productBox.getChildren().addAll(orderID,orderPrice,orderTime,deliveryTime,carrierName,deliveryStatus,cancelButton);
+        }
+        else {
+            productBox.getChildren().addAll(orderID,orderPrice,orderTime,deliveryTime,carrierName,deliveryStatus);
+        }
 
         return productBox;
     }
-
-
 }
