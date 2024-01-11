@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.example.shoppingapp.models.Product;
 import com.example.shoppingapp.repository.DatabaseAdapter;
+import javafx.fxml.FXML;
 
 public class ProductService {
     private final DatabaseAdapter databaseAdapter;
@@ -19,7 +20,7 @@ public class ProductService {
         List<Product> availableProducts = new ArrayList<>();
 
         try (Connection connection = databaseAdapter.getConnection()) {
-            String query = "SELECT * FROM productinfo WHERE stock > 0";
+            String query = "SELECT * FROM productinfo WHERE stock > 0 ORDER BY name";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -48,7 +49,7 @@ public class ProductService {
         List<Product> productsByType = new ArrayList<>();
 
         try (Connection connection = databaseAdapter.getConnection()) {
-            String query = "SELECT * FROM productinfo WHERE type = ? AND stock > 0";
+            String query = "SELECT * FROM productinfo WHERE type = ? AND stock > 0 ORDER BY name";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, productType);
 

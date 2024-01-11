@@ -5,10 +5,7 @@ import com.example.shoppingapp.models.CartItem;
 import com.example.shoppingapp.models.Product;
 import com.example.shoppingapp.repository.DatabaseAdapter;
 import com.example.shoppingapp.repository.MySqlConnectionAdapter;
-import com.example.shoppingapp.services.CartService;
-import com.example.shoppingapp.services.ProductService;
-import com.example.shoppingapp.services.UserService;
-import com.example.shoppingapp.services.UserSession;
+import com.example.shoppingapp.services.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -91,6 +88,7 @@ public class ShoppingController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("ShoppingCart.fxml"));
             Parent signUpRoot = fxmlLoader.load();
+
 
             BorderPane signUpContainer = new BorderPane();
             signUpContainer.setCenter(signUpRoot);

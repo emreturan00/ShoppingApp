@@ -78,6 +78,22 @@ public class OwnerController {
     private Text gotouser;
 
 
+    @FXML
+    private TextField nameUpdate;
+    @FXML
+    private TextField typeUpdate;
+    @FXML
+    private TextField stockUpdate;
+    @FXML
+    private TextField priceUpdate;
+    @FXML
+    private TextField imageLocationUpdate;
+    @FXML
+    private TextField thresholdUpdate;
+    @FXML
+    private Button update;
+
+
 
 
 
@@ -95,6 +111,15 @@ public class OwnerController {
 
         productService.addProduct(product);
 
+        name.clear();
+        type.clear();
+        stock.clear();
+        price.clear();
+        imageLocation.clear();
+        threshold.clear();
+
+
+
     }
 
 
@@ -103,12 +128,25 @@ public class OwnerController {
         System.out.println(nameDelete.getText());
 
         productService.removeProduct(nameDelete.getText());
+        nameDelete.clear();
 
     }
 
     @FXML
     private void handleUpdate(){
-//        productService.updateProduct();
+        Product newProduct = new Product(0,nameUpdate.getText(),
+                typeUpdate.getText(),Float.parseFloat(stockUpdate.getText()),
+                Double.parseDouble(priceUpdate.getText()),imageLocationUpdate.getText(),
+                Integer.parseInt(thresholdUpdate.getText()));
+
+        productService.updateProduct(newProduct);
+        nameUpdate.clear();
+        typeUpdate.clear();
+        stockUpdate.clear();
+        priceUpdate.clear();
+        imageLocationUpdate.clear();
+        thresholdUpdate.clear();
+
 
     }
 
@@ -226,7 +264,6 @@ public class OwnerController {
 
         return productBox;
     }
-
 
 
 

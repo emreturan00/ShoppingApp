@@ -31,7 +31,7 @@ public class Product {
 
     public Product(int productId, String name, String type, float stock, double price, String imageLocation, int threshold) {
         this.productId = productId;
-        Name = name;
+        this.Name = name;
         this.type = type;
         this.stock = stock;
         this.price = price;

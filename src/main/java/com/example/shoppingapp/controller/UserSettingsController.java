@@ -5,8 +5,6 @@ import com.example.shoppingapp.repository.DatabaseAdapter;
 import com.example.shoppingapp.repository.MySqlConnectionAdapter;
 import com.example.shoppingapp.services.UserService;
 import com.example.shoppingapp.services.UserSession;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -59,6 +57,7 @@ public class UserSettingsController {
 
         UserSession.getInstance().clearSession();
         try {
+
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Login.fxml"));
             Parent signUpRoot = fxmlLoader.load();
 
