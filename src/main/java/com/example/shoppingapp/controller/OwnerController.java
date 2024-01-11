@@ -3,6 +3,7 @@ package com.example.shoppingapp.controller;
 import com.example.shoppingapp.HelloApplication;
 import com.example.shoppingapp.models.Order;
 import com.example.shoppingapp.models.Product;
+import com.example.shoppingapp.models.User;
 import com.example.shoppingapp.repository.DatabaseAdapter;
 import com.example.shoppingapp.repository.MySqlConnectionAdapter;
 import com.example.shoppingapp.services.OrderService;
@@ -67,12 +68,16 @@ public class OwnerController {
     private Button add;
     @FXML
     private Button deleteButton;
+    @FXML
+    private Button fireButton;
 
     @FXML
     private ChoiceBox<String> carrierBox;
 
     @FXML
     private Text gotouser;
+
+
 
 
 
@@ -140,13 +145,15 @@ public class OwnerController {
 
     private void setCarrier(String newCarrier) {
         if (newCarrier != null && !newCarrier.isEmpty()) {
-            String updateQuery = "UPDATE orderinfo SET carrier = ? WHERE carrier = 'notselected' AND isDelivered = false";
+            String updateQuery = "UPDATE orderinfo SET carrier = ? WHERE carrier = 'notselected' AND isDelivered = false AND userID = ?";
 
             try (Connection connection = databaseAdapter.getConnection();
                  PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
 
                 // Set the parameters using setString and setInt
                 updateStatement.setString(1, newCarrier);
+                updateStatement.setInt(2,UserSession.getInstance().getUserId());
+
 
                 int rowsUpdated = updateStatement.executeUpdate();
 
@@ -161,6 +168,30 @@ public class OwnerController {
             }
         } else {
             System.out.println("Invalid input for newCarrier. It cannot be null or empty.");
+        }
+    }
+
+    @FXML
+    private void fireCarrier() {
+        String updateQuery = "UPDATE orderinfo SET carrier = ? WHERE isdelivered = false AND userID = ?";
+
+        try (Connection connection = databaseAdapter.getConnection();
+             PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+
+            // Set the parameters using setString and setInt
+            updateStatement.setString(1, "notselected");
+            updateStatement.setInt(2,UserSession.getInstance().getUserId());
+
+            int rowsUpdated = updateStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Carrier fired");
+            } else {
+                System.out.println("could not fire!");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
         }
     }
 
