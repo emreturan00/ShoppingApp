@@ -174,7 +174,7 @@ public class OwnerController {
     @FXML
     private void initialize() {
         gotouser.setText("USER: " + UserSession.getInstance().getUsername());
-        displayProducts(ordersScroll, ordersContainer, orderService.viewOrdersbyid());
+        displayProducts(ordersScroll, ordersContainer, orderService.viewOrders());
         ObservableList<String> typeOptions = FXCollections.observableArrayList("emrekargo", "suratkargo", "ups");
 
         carrierBox.setItems(typeOptions);
@@ -183,14 +183,13 @@ public class OwnerController {
 
     private void setCarrier(String newCarrier) {
         if (newCarrier != null && !newCarrier.isEmpty()) {
-            String updateQuery = "UPDATE orderinfo SET carrier = ? WHERE carrier = 'notselected' AND isDelivered = false AND userID = ?";
+            String updateQuery = "UPDATE orderinfo SET carrier = ? WHERE carrier = 'notselected' AND isdelivered = false";
 
             try (Connection connection = databaseAdapter.getConnection();
                  PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
 
                 // Set the parameters using setString and setInt
                 updateStatement.setString(1, newCarrier);
-                updateStatement.setInt(2,UserSession.getInstance().getUserId());
 
 
                 int rowsUpdated = updateStatement.executeUpdate();
@@ -211,14 +210,13 @@ public class OwnerController {
 
     @FXML
     private void fireCarrier() {
-        String updateQuery = "UPDATE orderinfo SET carrier = ? WHERE isdelivered = false AND userID = ?";
+        String updateQuery = "UPDATE orderinfo SET carrier = ? WHERE isdelivered = false";
 
         try (Connection connection = databaseAdapter.getConnection();
              PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
 
             // Set the parameters using setString and setInt
             updateStatement.setString(1, "notselected");
-            updateStatement.setInt(2,UserSession.getInstance().getUserId());
 
             int rowsUpdated = updateStatement.executeUpdate();
 
