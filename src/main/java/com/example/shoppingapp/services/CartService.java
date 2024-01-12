@@ -136,15 +136,12 @@ public class CartService {
             connection.setAutoCommit(false);
 
             try {
-                // Insert items from the cart into the orders table
-                int orderId = moveItemsToOrders(deliveryTime, carrier);
-
                 // Update product stock based on the cart
                 if(updateStockAndPrice()){
-
+                    System.out.println(updateStockAndPrice());
+                    moveItemsToOrders(deliveryTime, carrier);
                     // Clear the user's cart
                     clearUserCart();
-
                     // Commit the transaction
                     connection.commit();
                 }
@@ -246,50 +243,23 @@ public class CartService {
                         "                 ELSE p.price " +
                         "             END, " +
                         "    p.doubled_price = CASE WHEN (p.stock - c.quantity) <= p.threshold THEN true ELSE p.doubled_price END " +
-                        "WHERE (p.stock - c.quantity) >= 0";
-
-
-
+                        "WHERE (p.stock - c.quantity) >= 0 AND p.id = c.product_id";
 
         try (PreparedStatement updateStockAndPriceStatement = databaseAdapter.getConnection().prepareStatement(updateStockAndPriceQuery)) {
             // Execute the update statement
             int rowsAffected = updateStockAndPriceStatement.executeUpdate();
+            System.out.println(rowsAffected);
 
             // Check if any rows were affected (i.e., the update was successful)
             if (rowsAffected > 0) {
-                // Query to retrieve the updated stock values for the affected products
-                String selectStockQuery = "SELECT id, stock FROM productinfo p WHERE EXISTS " +
-                        "(SELECT 1 FROM cartinfo c WHERE p.id = c.product_id AND (p.stock - c.quantity) >= 0)";
-
-                try (PreparedStatement selectStockStatement = databaseAdapter.getConnection().prepareStatement(selectStockQuery)) {
-                    // Execute the select statement
-                    try (ResultSet resultSet = selectStockStatement.executeQuery()) {
-                        while (resultSet.next()) {
-                            int productId = resultSet.getInt("id");
-                            float updatedStock = resultSet.getFloat("stock");
-
-                            // Print or handle the updated stock for each affected product
-                            System.out.println("Product ID: " + productId + ", Updated Stock: " + updatedStock);
-
-                            // Return false if any updated stock is < 0
-                            if (updatedStock < 0) {
-                                return false;
-                            }
-                        }
-
-                        // Return true if all updated stocks are >= 0
-                        return true;
-                    }
-                }
+                // Check the condition (p.stock - c.quantity) >= 0
+                return true;
             }
         }
 
-        // Return false if the update was not successful or the stock is < 0
+        // Return false if the update was not successful or the condition is not met
         return false;
     }
-
-
-
 
 
 
@@ -305,30 +275,26 @@ public class CartService {
         }
     }
 
+    public boolean checkStock(int productId, float cartQuantity) throws SQLException {
+        String selectStockQuery = "SELECT stock FROM productinfo WHERE id = ?";
 
+        try (PreparedStatement selectStockStatement = databaseAdapter.getConnection().prepareStatement(selectStockQuery)) {
+            selectStockStatement.setInt(1, productId);
 
-//    public void cancelOrder(int orderId) throws SQLException {
-//        String cancelOrderQuery =
-//                "UPDATE productinfo p " +
-//                        "JOIN orderinfo od ON p.id = od.product_id " +
-//                        "SET p.stock = p.stock + od.quantity, " +
-//                        "    p.doubled_price = CASE WHEN p.stock > p.threshold THEN p.doubled_price ELSE false END " +
-//                        "WHERE od.orderId = ?";
-//
-//        try (PreparedStatement cancelOrderStatement = databaseAdapter.getConnection().prepareStatement(cancelOrderQuery)) {
-//            // Set the order ID parameter
-//            cancelOrderStatement.setInt(1, orderId);
-//
-//            // Execute the cancel order statement
-//            int rowsAffected = cancelOrderStatement.executeUpdate();
-//
-//            // Print or handle the result
-//            System.out.println(rowsAffected + " rows updated for canceled order: " + orderId);
-//        } catch (SQLException e) {
-//            // Handle the exception
-//            e.printStackTrace();
-//        }
-//    }
+            try (ResultSet resultSet = selectStockStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    float currentStock = resultSet.getFloat("stock");
+
+                    // Check if the requested quantity can be fulfilled based on current stock
+                    return currentStock >= cartQuantity && cartQuantity > 0;
+                } else {
+                    // Handle the case where the product ID is not found
+                    System.out.println("Error: Product with ID " + productId + " not found.");
+                    return false;
+                }
+            }
+        }
+    }
 
 
 }
