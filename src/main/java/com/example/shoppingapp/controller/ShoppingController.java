@@ -66,6 +66,8 @@ public class ShoppingController {
 
     @FXML
     protected void handleGotouser(){
+
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("CustomerSettings.fxml"));
             Parent signUpRoot = fxmlLoader.load();
@@ -76,6 +78,7 @@ public class ShoppingController {
             Stage signUpStage = new Stage();
             signUpStage.setTitle("Settings");
             signUpStage.setScene(new Scene(signUpContainer));
+            WindowManager.addOpenStage(signUpStage);
             signUpStage.show();
 
         } catch (IOException e) {
@@ -96,6 +99,7 @@ public class ShoppingController {
             Stage signUpStage = new Stage();
             signUpStage.setTitle("Cart");
             signUpStage.setScene(new Scene(signUpContainer));
+            WindowManager.addOpenStage(signUpStage);
             signUpStage.show();
 
         } catch (IOException e) {
@@ -110,22 +114,31 @@ public class ShoppingController {
 
             // Check if the text is not empty
             if (!text.isEmpty()) {
-                // Parse the text to an integer
+                // Parse the text to a float
                 float quantity = Float.parseFloat(text);
 
-                // Your existing code to add to the cart
-                Product product = (Product) addButton.getUserData();
-                CartItem cartItem = new CartItem(product, quantity);
-                cartService.addToCart(cartItem);
+                // Check if the parsed quantity is greater than 0
+                if (quantity > 0) {
+                    // Your existing code to add to the cart
+                    Product product = (Product) addButton.getUserData();
+                    CartItem cartItem = new CartItem(product, quantity);
+                    cartService.addToCart(cartItem);
+                    valueText.clear();
+                } else {
+                    // Handle the case where the quantity is less than or equal to 0
+                    System.err.println("Quantity must be greater than 0.");
+                    // You can show an error message or disable the button, etc.
+                }
             } else {
                 // Handle the case where the text is empty (show an error message, etc.)
                 System.err.println("Quantity cannot be empty.");
             }
         } catch (NumberFormatException e) {
-            // Handle the case where the text is not a valid integer
+            // Handle the case where the text is not a valid float
             System.err.println("Invalid quantity format. Please enter a valid number.");
         }
     }
+
 
 
     //===================================================================================
@@ -134,8 +147,8 @@ public class ShoppingController {
     private void initialize() {
         gotouser.setText("USER: " + UserSession.getInstance().getUsername());
         displayProducts(allScroll, productContainer, productService.viewAvailableProducts());
-        displayProducts(fruitsScroll, productContainerFruits, productService.getProductsByType("meyve"));
-        displayProducts(vegetablesScroll, productContainerVegetables, productService.getProductsByType("ayicik"));
+        displayProducts(fruitsScroll, productContainerFruits, productService.getProductsByType("fruit"));
+        displayProducts(vegetablesScroll, productContainerVegetables, productService.getProductsByType("vegetable"));
 
     }
 

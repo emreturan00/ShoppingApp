@@ -6,6 +6,7 @@ import com.example.shoppingapp.repository.DatabaseAdapter;
 import com.example.shoppingapp.repository.MySqlConnectionAdapter;
 import com.example.shoppingapp.services.DeliveryService;
 import com.example.shoppingapp.services.UserSession;
+import com.example.shoppingapp.services.WindowManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,6 +23,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class CarrierController  {
@@ -43,7 +45,7 @@ public class CarrierController  {
     private ScrollPane completedScroll;
 
     @FXML
-    private Tab availableTab;
+    public Tab availableTab;
     @FXML
     private Tab currentTab;
     @FXML
@@ -53,24 +55,55 @@ public class CarrierController  {
     private Text gotouser;
 
 
-
-
-
-
-
-
-
-
     @FXML
     private void handleSelect(Button selectButton){
         Order order = (Order) selectButton.getUserData();
         deliveryService.updateOrderSelection(order.getOrderId());
+
+        Stage currentStage = (Stage) selectButton.getScene().getWindow();
+        currentStage.close();
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Carrier.fxml"));
+            Parent signUpRoot = fxmlLoader.load();
+
+            BorderPane signUpContainer = new BorderPane();
+            signUpContainer.setCenter(signUpRoot);
+
+            Stage signUpStage = new Stage();
+            signUpStage.setScene(new Scene(signUpContainer));
+            WindowManager.addOpenStage(signUpStage);
+
+            signUpStage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @FXML
     private void handleDelivered(Button selectButton){
         Order order = (Order) selectButton.getUserData();
         deliveryService.updateOrderDelivery(order.getOrderId());
+        Stage currentStage = (Stage) selectButton.getScene().getWindow();
+        currentStage.close();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Carrier.fxml"));
+            Parent signUpRoot = fxmlLoader.load();
+
+            BorderPane signUpContainer = new BorderPane();
+            signUpContainer.setCenter(signUpRoot);
+
+            Stage signUpStage = new Stage();
+            signUpStage.setScene(new Scene(signUpContainer));
+            WindowManager.addOpenStage(signUpStage);
+            signUpStage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 
@@ -89,12 +122,12 @@ public class CarrierController  {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("CustomerSettings.fxml"));
             Parent signUpRoot = fxmlLoader.load();
 
-            // Create a new container (e.g., BorderPane) and set the loaded content as its center
             BorderPane signUpContainer = new BorderPane();
             signUpContainer.setCenter(signUpRoot);
 
             Stage signUpStage = new Stage();
             signUpStage.setScene(new Scene(signUpContainer));
+            WindowManager.addOpenStage(signUpStage);
 
             signUpStage.show();
 

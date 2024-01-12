@@ -24,11 +24,9 @@ public class CartService {
                 checkStatement.setInt(2, cartItem.getProduct().getProductId());
                 try (ResultSet resultSet = checkStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        // Product is already in the cart, update quantity
                         float currentQuantity = resultSet.getFloat("quantity");
                         float newQuantity = currentQuantity + cartItem.getQuantity();
 
-                        // Update the quantity in the cart
                         String updateQuery = "UPDATE cartinfo SET quantity = ? WHERE user_id = ? AND product_id = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
                             updateStatement.setFloat(1, newQuantity);
@@ -37,7 +35,6 @@ public class CartService {
                             updateStatement.executeUpdate();
                         }
                     } else {
-                        // Product is not in the cart, insert a new row
                         String insertQuery = "INSERT INTO cartinfo (user_id, product_id, quantity) VALUES (?, ?, ?)";
                         try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                             insertStatement.setInt(1, cartItem.getUserId());
@@ -49,7 +46,7 @@ public class CartService {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
     }
 
@@ -69,7 +66,6 @@ public class CartService {
                         int product_id = resultSet.getInt("product_id");
                         float quantity = resultSet.getFloat("quantity");
 
-                        // Create a new CartItem with the retrieved quantity and Product information
                         Product product = new Product();
                         product.setProductId(product_id);
                         product.setName(resultSet.getString("name"));
@@ -89,7 +85,7 @@ public class CartService {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
 
         return cartItems;
@@ -98,56 +94,47 @@ public class CartService {
 
     public void updateCartItemQuantity(int productId, float newQuantity) {
         try (Connection connection = databaseAdapter.getConnection()) {
-            // Update the quantity in the cartinfo table
             String updateQuery = "UPDATE cartinfo SET quantity = ? WHERE user_id = ? AND product_id = ?";
             try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
                 updateStatement.setFloat(1, newQuantity);
                 updateStatement.setInt(2, UserSession.getInstance().getUserId());
                 updateStatement.setInt(3, productId);
 
-                // Execute the update statement
                 updateStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
     }
 
     public void removeProductFromCart(int productId) {
         try (Connection connection = databaseAdapter.getConnection()) {
-            // Remove the product from the cartinfo table
             String removeQuery = "DELETE FROM cartinfo WHERE user_id = ? AND product_id = ?";
             try (PreparedStatement removeStatement = connection.prepareStatement(removeQuery)) {
                 removeStatement.setInt(1, UserSession.getInstance().getUserId());
                 removeStatement.setInt(2, productId);
 
-                // Execute the delete statement
                 removeStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
     }
 
 
     public void completeCart(String deliveryTime, String carrier) {
         try (Connection connection = databaseAdapter.getConnection()) {
-            // Start a transaction
             connection.setAutoCommit(false);
 
             try {
-                // Update product stock based on the cart
                 if(updateStockAndPrice()){
                     System.out.println(updateStockAndPrice());
                     moveItemsToOrders(deliveryTime, carrier);
-                    // Clear the user's cart
                     clearUserCart();
-                    // Commit the transaction
                     connection.commit();
                 }
 
             } catch (SQLException e) {
-                // Handle exceptions, log errors, and roll back the transaction in case of failure
                 connection.rollback();
                 e.printStackTrace();
             }
@@ -157,34 +144,27 @@ public class CartService {
     }
 
     private int moveItemsToOrders(String deliveryTime, String carrier) throws SQLException {
-        // Insert items from the cart into the orders table
         String insertOrderQuery = "INSERT INTO orderinfo (userId, orderTime, deliveryTime, carrier, isDelivered, totalCost, products) VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)";
         try (PreparedStatement insertOrderStatement = databaseAdapter.getConnection().prepareStatement(insertOrderQuery, Statement.RETURN_GENERATED_KEYS)) {
-            // Set values for the columns
             int userId = UserSession.getInstance().getUserId();
             insertOrderStatement.setInt(1, userId);
             insertOrderStatement.setString(2, deliveryTime);
             insertOrderStatement.setString(3, carrier);
             insertOrderStatement.setBoolean(4, false);
 
-            // Calculate total cost based on the cart items
             double totalCost = calculateTotalCost(databaseAdapter.getConnection());
             insertOrderStatement.setDouble(5, totalCost);
 
-            // Retrieve the list of product IDs from the cart
             List<Integer> productIds = getCartProductIds(userId, databaseAdapter.getConnection());
 
-            // Convert the list of product IDs to a CSV string
             String productsCsv = productIds.stream()
                     .map(String::valueOf)
                     .collect(Collectors.joining(","));
 
             insertOrderStatement.setString(6, productsCsv);
 
-            // Execute the insert statement
             insertOrderStatement.executeUpdate();
 
-            // Get the generated order ID
             try (ResultSet generatedKeys = insertOrderStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     return generatedKeys.getInt(1);
@@ -196,7 +176,6 @@ public class CartService {
     }
 
     private List<Integer> getCartProductIds(int userId, Connection connection) throws SQLException {
-        // Implement logic to retrieve the list of product IDs from the cart
         List<Integer> productIds = new ArrayList<>();
         String query = "SELECT product_id FROM cartinfo WHERE user_id = ?";
 
@@ -216,12 +195,10 @@ public class CartService {
 
 
     private double calculateTotalCost(Connection connection) throws SQLException {
-        // Calculate total cost based on the cart items
         String calculateTotalCostQuery = "SELECT SUM(p.price * c.quantity + (p.price * c.quantity/100)) AS total_cost FROM cartinfo c JOIN productinfo p ON c.product_id = p.id WHERE c.user_id = ?";
         try (PreparedStatement calculateTotalCostStatement = connection.prepareStatement(calculateTotalCostQuery)) {
             calculateTotalCostStatement.setInt(1, UserSession.getInstance().getUserId());
 
-            // Execute the query
             try (ResultSet resultSet = calculateTotalCostStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getDouble("total_cost");
@@ -246,18 +223,13 @@ public class CartService {
                         "WHERE (p.stock - c.quantity) >= 0 AND p.id = c.product_id";
 
         try (PreparedStatement updateStockAndPriceStatement = databaseAdapter.getConnection().prepareStatement(updateStockAndPriceQuery)) {
-            // Execute the update statement
             int rowsAffected = updateStockAndPriceStatement.executeUpdate();
             System.out.println(rowsAffected);
 
-            // Check if any rows were affected (i.e., the update was successful)
             if (rowsAffected > 0) {
-                // Check the condition (p.stock - c.quantity) >= 0
                 return true;
             }
         }
-
-        // Return false if the update was not successful or the condition is not met
         return false;
     }
 
@@ -265,12 +237,10 @@ public class CartService {
 
 
     private void clearUserCart() throws SQLException {
-        // Clear the user's cart
         String clearCartQuery = "DELETE FROM cartinfo WHERE user_id = ?";
         try (PreparedStatement clearCartStatement = databaseAdapter.getConnection().prepareStatement(clearCartQuery)) {
             clearCartStatement.setInt(1, UserSession.getInstance().getUserId());
 
-            // Execute the delete statement
             clearCartStatement.executeUpdate();
         }
     }
@@ -285,10 +255,8 @@ public class CartService {
                 if (resultSet.next()) {
                     float currentStock = resultSet.getFloat("stock");
 
-                    // Check if the requested quantity can be fulfilled based on current stock
                     return currentStock >= cartQuantity && cartQuantity > 0;
                 } else {
-                    // Handle the case where the product ID is not found
                     System.out.println("Error: Product with ID " + productId + " not found.");
                     return false;
                 }

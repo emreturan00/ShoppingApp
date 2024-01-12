@@ -9,6 +9,7 @@ import com.example.shoppingapp.repository.MySqlConnectionAdapter;
 import com.example.shoppingapp.services.OrderService;
 import com.example.shoppingapp.services.ProductService;
 import com.example.shoppingapp.services.UserSession;
+import com.example.shoppingapp.services.WindowManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -242,7 +243,7 @@ public class OwnerController {
 
             Stage signUpStage = new Stage();
             signUpStage.setScene(new Scene(signUpContainer));
-
+            WindowManager.addOpenStage(signUpStage);
             signUpStage.show();
 
         } catch (IOException e) {
@@ -279,6 +280,24 @@ public class OwnerController {
                 } else {
                     System.out.println("No orders were updated. Make sure there are orders with isDelivered=false.");
                 }
+                Stage currentStage = (Stage) fireButton.getScene().getWindow(); // Replace with the actual root node reference
+                currentStage.close();
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Owner.fxml"));
+                    Parent signUpRoot = fxmlLoader.load();
+
+                    // Create a new container (e.g., BorderPane) and set the loaded content as its center
+                    BorderPane signUpContainer = new BorderPane();
+                    signUpContainer.setCenter(signUpRoot);
+
+                    Stage signUpStage = new Stage();
+                    signUpStage.setScene(new Scene(signUpContainer));
+                    WindowManager.addOpenStage(signUpStage);
+                    signUpStage.show();
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
             } catch (SQLException e) {
                 e.printStackTrace(); // Handle the exception appropriately
@@ -291,7 +310,8 @@ public class OwnerController {
     @FXML
     private void fireCarrier() {
         String updateQuery = "UPDATE orderinfo SET carrier = ? WHERE isdelivered = false";
-
+        Stage currentStage = (Stage) fireButton.getScene().getWindow(); // Replace with the actual root node reference
+        currentStage.close();
         try (Connection connection = databaseAdapter.getConnection();
              PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
 
@@ -306,9 +326,28 @@ public class OwnerController {
                 System.out.println("could not fire!");
             }
 
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Owner.fxml"));
+                Parent signUpRoot = fxmlLoader.load();
+
+                // Create a new container (e.g., BorderPane) and set the loaded content as its center
+                BorderPane signUpContainer = new BorderPane();
+                signUpContainer.setCenter(signUpRoot);
+
+                Stage signUpStage = new Stage();
+                signUpStage.setScene(new Scene(signUpContainer));
+                WindowManager.addOpenStage(signUpStage);
+                signUpStage.show();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace(); // Handle the exception appropriately
         }
+
+
     }
 
 

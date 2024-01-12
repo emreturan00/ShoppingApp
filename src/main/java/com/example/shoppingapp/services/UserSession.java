@@ -7,7 +7,6 @@ public class UserSession {
     private String role;
 
     private UserSession() {
-        // private constructor to enforce singleton pattern
     }
 
     public static UserSession getInstance() {
@@ -38,6 +37,5 @@ public class UserSession {
         userId = 0;
         username = null;
         role = null;
-        // clear other session data if needed
     }
 }

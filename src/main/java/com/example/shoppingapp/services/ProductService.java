@@ -111,7 +111,7 @@ public class ProductService {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
     }
 
@@ -134,7 +134,7 @@ public class ProductService {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
     }
 }

@@ -35,21 +35,18 @@ public class OrderService {
                 String productIdsCSV = resultSet.getString("products");
                 boolean isSelected = resultSet.getBoolean("isSelected");
 
-                // Convert product IDs from CSV to a list of integers
                 List<Integer> productIds = convertCSVToList(productIdsCSV);
 
-                // Create an Order object and add it to the list
                 Order order = new Order(orderId, UserSession.getInstance().getUserId(), orderTime, deliveryTime, productIds.toString(), carrier, isDelivered, totalCost,isSelected);
                 orders.add(order);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
 
         return orders;
     }
 
-    // Helper method to convert CSV string to a list of integers
     private List<Integer> convertCSVToList(String csv) {
         List<Integer> list = new ArrayList<>();
         if (csv != null && !csv.isEmpty()) {
@@ -70,7 +67,6 @@ public class OrderService {
         try (Connection connection = databaseAdapter.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            // Set the parameter value using setInt
             statement.setInt(1, id);
 
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -84,16 +80,14 @@ public class OrderService {
                     String productIdsCSV = resultSet.getString("products");
                     boolean isSelected = resultSet.getBoolean("isSelected");
 
-                    // Convert product IDs from CSV to a list of integers
                     List<Integer> productIds = convertCSVToList(productIdsCSV);
 
-                    // Create an Order object and add it to the list
                     Order order = new Order(orderId, UserSession.getInstance().getUserId(), orderTime, deliveryTime, productIds.toString(), carrier, isDelivered, totalCost,isSelected);
                     orders.add(order);
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace();
         }
 
         return orders;

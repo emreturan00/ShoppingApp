@@ -8,6 +8,7 @@ import com.example.shoppingapp.repository.MySqlConnectionAdapter;
 import com.example.shoppingapp.services.CartService;
 import com.example.shoppingapp.services.ProductService;
 import com.example.shoppingapp.services.UserService;
+import com.example.shoppingapp.services.WindowManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -84,6 +85,7 @@ public class CartController {
             Stage signUpStage = new Stage();
             signUpStage.setTitle("Orders");
             signUpStage.setScene(new Scene(signUpContainer));
+            WindowManager.addOpenStage(signUpStage);
             signUpStage.show();
 
         } catch (IOException e) {
@@ -95,6 +97,9 @@ public class CartController {
     private void handlePurchase(ActionEvent event){
         System.out.println(selectDate.getText());
         cartService.completeCart(selectDate.getText(),"notselected");
+        Stage currentStage = (Stage) purchase.getScene().getWindow();
+        currentStage.close();
+
     }
 
     //===================================================================================
@@ -236,6 +241,7 @@ public class CartController {
 
             Stage signUpStage = new Stage();
             signUpStage.setScene(new Scene(signUpContainer));
+            WindowManager.addOpenStage(signUpStage);
             signUpStage.show();
 
         } catch (NumberFormatException e) {

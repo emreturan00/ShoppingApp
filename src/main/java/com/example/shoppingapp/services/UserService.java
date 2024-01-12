@@ -90,7 +90,6 @@ public class UserService {
             System.out.println("Password must contain at least one digit.");
         }
 
-        // Return true only if all criteria are met
         return hasUppercase && hasLowercase && hasDigit;
     }
 
@@ -102,7 +101,7 @@ public class UserService {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         int count = resultSet.getInt(1);
-                        return count > 0; // If count is greater than 0, username is taken
+                        return count > 0;
                     }
                 }
             }

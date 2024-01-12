@@ -5,6 +5,7 @@ import com.example.shoppingapp.repository.DatabaseAdapter;
 import com.example.shoppingapp.repository.MySqlConnectionAdapter;
 import com.example.shoppingapp.services.UserService;
 import com.example.shoppingapp.services.UserSession;
+import com.example.shoppingapp.services.WindowManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -96,13 +97,12 @@ public class UserServiceController {
                 FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(whatScene));
                 Parent signUpRoot = fxmlLoader.load();
 
-                // Create a new container (e.g., BorderPane) and set the loaded content as its center
                 BorderPane signUpContainer = new BorderPane();
                 signUpContainer.setCenter(signUpRoot);
 
                 Stage signUpStage = new Stage();
                 signUpStage.setScene(new Scene(signUpContainer));
-
+                WindowManager.addOpenStage(signUpStage);
                 signUpStage.show();
 
             } catch (IOException e) {
@@ -122,13 +122,13 @@ public class UserServiceController {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("SignUp.fxml"));
             Parent signUpRoot = fxmlLoader.load();
 
-            // Create a new container (e.g., BorderPane) and set the loaded content as its center
             BorderPane signUpContainer = new BorderPane();
             signUpContainer.setCenter(signUpRoot);
 
             Stage signUpStage = new Stage();
             signUpStage.setTitle("Signup");
             signUpStage.setScene(new Scene(signUpContainer));
+            WindowManager.addOpenStage(signUpStage);
             signUpStage.show();
         } catch (IOException e) {
             e.printStackTrace();
