@@ -41,6 +41,9 @@ public class UserServiceController {
     @FXML
     private Text takenUsername;
 
+    @FXML
+    private Text invalid;
+
 
 
     @FXML
@@ -72,42 +75,42 @@ public class UserServiceController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        userService.signIn(username,password);
-        System.out.println(UserSession.getInstance().getUsername());
-        Stage currentStage = (Stage) usernameField.getScene().getWindow();
+        if (userService.signIn(username,password)){
+            System.out.println(UserSession.getInstance().getUsername());
+            Stage currentStage = (Stage) usernameField.getScene().getWindow();
 
-        currentStage.close();
+            currentStage.close();
 
-        String whatScene;
+            String whatScene;
 
-        if ("carrier".equals(UserSession.getInstance().getRole())){
-            whatScene = "Carrier.fxml";
+            if ("carrier".equals(UserSession.getInstance().getRole())){
+                whatScene = "Carrier.fxml";
             }
-        else if ("customer".equals(UserSession.getInstance().getRole())) {
-            whatScene = "ShoppingPage.fxml";
+            else if ("customer".equals(UserSession.getInstance().getRole())) {
+                whatScene = "ShoppingPage.fxml";
+            }
+            else {
+                whatScene = "Owner.fxml";
+            }
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(whatScene));
+                Parent signUpRoot = fxmlLoader.load();
+
+                // Create a new container (e.g., BorderPane) and set the loaded content as its center
+                BorderPane signUpContainer = new BorderPane();
+                signUpContainer.setCenter(signUpRoot);
+
+                Stage signUpStage = new Stage();
+                signUpStage.setScene(new Scene(signUpContainer));
+
+                signUpStage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        else {
-            whatScene = "Owner.fxml";
-        }
-
-
-
-
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(whatScene));
-            Parent signUpRoot = fxmlLoader.load();
-
-            // Create a new container (e.g., BorderPane) and set the loaded content as its center
-            BorderPane signUpContainer = new BorderPane();
-            signUpContainer.setCenter(signUpRoot);
-
-            Stage signUpStage = new Stage();
-            signUpStage.setScene(new Scene(signUpContainer));
-
-            signUpStage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        else{
+            invalid.setVisible(true);
         }
     }
 

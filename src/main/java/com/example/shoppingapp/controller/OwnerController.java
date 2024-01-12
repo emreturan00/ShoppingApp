@@ -99,28 +99,71 @@ public class OwnerController {
 
 
     @FXML
-    private void handleAdd(){
-        Product product = new Product();
-        product.setProductId(0);
-        product.setName(name.getText());
-        product.setStock(Integer.parseInt(stock.getText()));
-        product.setType(type.getText());
-        product.setThreshold(Integer.parseInt(threshold.getText()));
-        product.setPrice(Double.parseDouble(price.getText()));
-        product.setImageLocation(imageLocation.getText());
+    private void handleAdd() {
+        try {
+            Product product = new Product();
 
-        productService.addProduct(product);
+            // Validate name
+            String nameValue = name.getText();
+            if (nameValue.isEmpty()) {
+                // Handle the case where name is empty (display an error message, etc.)
+                return;
+            }
+            product.setName(nameValue);
 
-        name.clear();
-        type.clear();
-        stock.clear();
-        price.clear();
-        imageLocation.clear();
-        threshold.clear();
+            // Validate type
+            String typeValue = type.getText();
+            if (typeValue.isEmpty()) {
+                // Handle the case where type is empty (display an error message, etc.)
+                return;
+            }
+            product.setType(typeValue);
 
+            // Validate stock
+            int stockValue = Integer.parseInt(stock.getText());
+            if (stockValue <= 0) {
+                // Handle the case where stock is less than 0 (display an error message, etc.)
+                return;
+            }
+            product.setStock(stockValue);
 
+            // Validate threshold
+            int thresholdValue = Integer.parseInt(threshold.getText());
+            if (thresholdValue <= 0) {
+                // Handle the case where threshold is less than 0 (display an error message, etc.)
+                return;
+            }
+            product.setThreshold(thresholdValue);
 
+            // Validate price
+            double priceValue = Double.parseDouble(price.getText());
+            if (priceValue < 0) {
+                // Handle the case where price is less than 0 (display an error message, etc.)
+                return;
+            }
+            product.setPrice(priceValue);
+
+            // Set other properties as before
+            product.setProductId(0);
+            product.setImageLocation(imageLocation.getText());
+
+            // Add the product
+            productService.addProduct(product);
+
+            // Clear input fields
+            name.clear();
+            type.clear();
+            stock.clear();
+            price.clear();
+            imageLocation.clear();
+            threshold.clear();
+        } catch (NumberFormatException e) {
+            // Handle the case where the user entered non-numeric values (display an error message, etc.)
+            e.printStackTrace();
+        }
     }
+
+
 
 
     @FXML
@@ -133,21 +176,58 @@ public class OwnerController {
     }
 
     @FXML
-    private void handleUpdate(){
-        Product newProduct = new Product(0,nameUpdate.getText(),
-                typeUpdate.getText(),Float.parseFloat(stockUpdate.getText()),
-                Double.parseDouble(priceUpdate.getText()),imageLocationUpdate.getText(),
-                Integer.parseInt(thresholdUpdate.getText()));
+    private void handleUpdate() {
+        try {
+            // Validate name
+            String nameValue = nameUpdate.getText();
+            if (nameValue.isEmpty()) {
+                // Handle the case where name is empty (display an error message, etc.)
+                return;
+            }
 
-        productService.updateProduct(newProduct);
-        nameUpdate.clear();
-        typeUpdate.clear();
-        stockUpdate.clear();
-        priceUpdate.clear();
-        imageLocationUpdate.clear();
-        thresholdUpdate.clear();
+            // Validate type
+            String typeValue = typeUpdate.getText();
+            if (typeValue.isEmpty()) {
+                // Handle the case where type is empty (display an error message, etc.)
+                return;
+            }
 
+            // Validate stock
+            float stockValue = Float.parseFloat(stockUpdate.getText());
+            if (stockValue <= 0) {
+                // Handle the case where stock is less than 0 (display an error message, etc.)
+                return;
+            }
 
+            // Validate threshold
+            int thresholdValue = Integer.parseInt(thresholdUpdate.getText());
+            if (thresholdValue <= 0) {
+                // Handle the case where threshold is less than 0 (display an error message, etc.)
+                return;
+            }
+
+            // Validate price
+            double priceValue = Double.parseDouble(priceUpdate.getText());
+            if (priceValue < 0) {
+                // Handle the case where price is less than 0 (display an error message, etc.)
+                return;
+            }
+
+            Product newProduct = new Product(0, nameValue, typeValue, stockValue, priceValue, imageLocationUpdate.getText(), thresholdValue);
+
+            productService.updateProduct(newProduct);
+
+            // Clear input fields
+            nameUpdate.clear();
+            typeUpdate.clear();
+            stockUpdate.clear();
+            priceUpdate.clear();
+            imageLocationUpdate.clear();
+            thresholdUpdate.clear();
+        } catch (NumberFormatException e) {
+            // Handle the case where the user entered non-numeric values (display an error message, etc.)
+            e.printStackTrace();
+        }
     }
 
     @FXML

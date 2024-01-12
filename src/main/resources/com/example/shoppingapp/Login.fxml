@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<TitledPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" text="Login" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.UserServiceController">
+<TitledPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540" prefWidth="960" text="Login" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shoppingapp.controller.UserServiceController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="540" prefWidth="960">
          <children>
-            <ImageView fitHeight="510.0" fitWidth="960.0" layoutX="-3.0" layoutY="-1.0" pickOnBounds="true" >
+            <ImageView fitHeight="510.0" fitWidth="960.0" layoutX="-3.0" layoutY="-1.0" pickOnBounds="true">
                <image>
                    <Image url="file:/C:/Users/emre/Desktop/vivid-blurred-colorful-background.jpg" />
                </image>
@@ -34,11 +27,11 @@
             <TextField fx:id="passwordField" layoutX="418.0" layoutY="192.0" />
             <Button layoutX="476.0" layoutY="315.0" mnemonicParsing="false" onAction="#handleSignup" text="Signup" />
             <Text layoutX="424.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No account? Press Signup." />
-<!--            <Text fill="RED" layoutX="208.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Incorrect input, please try again." underline="true">-->
-<!--               <font>-->
-<!--                  <Font name="System Bold" size="12.0" />-->
-<!--               </font>-->
-<!--            </Text>-->
+            <Text fx:id="invalid" fill="RED" layoutX="600.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Incorrect credentials, please try again." underline="true" visible="false">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
          </children></AnchorPane>
   </content>
 </TitledPane>
