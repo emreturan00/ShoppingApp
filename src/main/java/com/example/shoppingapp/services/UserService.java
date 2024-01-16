@@ -111,13 +111,12 @@ public class UserService {
         return false;
     }
 
-    public boolean updateUserInfo(String newUsername, String newPassword, String newAddress) {
+    public boolean updateUserInfo(String newPassword, String newAddress) {
         try (Connection connection = databaseAdapter.getConnection()) {
-            String query = "UPDATE userinfo SET username = ?, password = ?, adress = ? WHERE id = " + UserSession.getInstance().getUserId();
+            String query = "UPDATE userinfo SET password = ?, adress = ? WHERE id = " + UserSession.getInstance().getUserId();
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, newUsername);
-                preparedStatement.setString(2, newPassword);
-                preparedStatement.setString(3, newAddress);
+                preparedStatement.setString(1, newPassword);
+                preparedStatement.setString(2, newAddress);
 
                 int rowsUpdated = preparedStatement.executeUpdate();
 

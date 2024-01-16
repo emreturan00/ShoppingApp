@@ -59,6 +59,8 @@ public class UserSettingsController {
     protected void initialize(){
         updateCustomernameText.setText("USER: " + UserSession.getInstance().getUsername());
         roleText.setText("ROLE: " + UserSession.getInstance().getRole());
+        UpdateUsernameField.setPromptText(UserSession.getInstance().getUsername());
+        UpdateUsernameField.setEditable(false);
 
     }
     @FXML
@@ -85,19 +87,17 @@ public class UserSettingsController {
 
     @FXML
     private void handleUpdate(){
-        String newUsername = UpdateUsernameField.getText();
+
         String newPassword = UpdatepasswordField.getText();
         String newAdress = UpdateadressField.getText();
 
-        if(userService.isStrongPassword(newPassword) && !userService.isUsernameTaken(newUsername) && !newAdress.isEmpty()){
+        if(userService.isStrongPassword(newPassword) && !newAdress.isEmpty()){
             UpdateweakText.setVisible(false);
             UpdatetakenUsername.setVisible(false);
-            userService.updateUserInfo(newUsername, newPassword, newAdress);
+            userService.updateUserInfo(newPassword, newAdress);
 
         }
-        else if (userService.isUsernameTaken(newUsername)) {
-            UpdatetakenUsername.setVisible(true);
-        }
+
         else if (!userService.isStrongPassword(newPassword)){
             UpdateweakText.setVisible(true);
         }

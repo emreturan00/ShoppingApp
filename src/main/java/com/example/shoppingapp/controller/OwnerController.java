@@ -6,10 +6,7 @@ import com.example.shoppingapp.models.Product;
 import com.example.shoppingapp.models.User;
 import com.example.shoppingapp.repository.DatabaseAdapter;
 import com.example.shoppingapp.repository.MySqlConnectionAdapter;
-import com.example.shoppingapp.services.OrderService;
-import com.example.shoppingapp.services.ProductService;
-import com.example.shoppingapp.services.UserSession;
-import com.example.shoppingapp.services.WindowManager;
+import com.example.shoppingapp.services.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,6 +30,7 @@ public class OwnerController {
     DatabaseAdapter databaseAdapter = new MySqlConnectionAdapter();
     ProductService productService = new ProductService(databaseAdapter);
     OrderService orderService = new OrderService(databaseAdapter);
+    DeliveryService deliveryService = new DeliveryService(databaseAdapter);
 
     @FXML
     private Tab ordersTab;
@@ -237,7 +235,6 @@ public class OwnerController {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("CustomerSettings.fxml"));
             Parent signUpRoot = fxmlLoader.load();
 
-            // Create a new container (e.g., BorderPane) and set the loaded content as its center
             BorderPane signUpContainer = new BorderPane();
             signUpContainer.setCenter(signUpRoot);
 
@@ -256,7 +253,7 @@ public class OwnerController {
     private void initialize() {
         gotouser.setText("USER: " + UserSession.getInstance().getUsername());
         displayProducts(ordersScroll, ordersContainer, orderService.viewOrders());
-        ObservableList<String> typeOptions = FXCollections.observableArrayList("emrekargo", "suratkargo", "ups");
+        ObservableList<String> typeOptions = FXCollections.observableArrayList(deliveryService.viewCarriers());
 
         carrierBox.setItems(typeOptions);
         carrierBox.setOnAction(event -> setCarrier(carrierBox.getValue()));

@@ -128,7 +128,6 @@ public class CartService {
 
             try {
                 if(updateStockAndPrice()){
-                    System.out.println(updateStockAndPrice());
                     moveItemsToOrders(deliveryTime, carrier);
                     clearUserCart();
                     connection.commit();

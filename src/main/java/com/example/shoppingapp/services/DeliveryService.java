@@ -218,4 +218,27 @@ public class DeliveryService {
         }
 
     }
+
+    public List<String> viewCarriers() {
+        List<String> carriers = new ArrayList<>();
+
+        String query = "SELECT * FROM userinfo WHERE role = ?";
+
+        try (Connection connection = databaseAdapter.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, "carrier");
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String name = resultSet.getString("username");
+                    carriers.add(name);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return carriers;
+    }
 }
