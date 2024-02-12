@@ -1,4 +1,16 @@
 AUTHOR: EMRE TURAN
+
+![image7](https://github.com/emreturan00/ShoppingApp/assets/93795815/19e7de99-563b-426d-999f-cc213ebbafac)
+
+![image8](https://github.com/emreturan00/ShoppingApp/assets/93795815/8087c8a5-f65d-43ad-8bd7-7a86251259ca)
+
+![image10](https://github.com/emreturan00/ShoppingApp/assets/93795815/725ff365-f0e6-4677-93ed-859be3dd019a)
+
+![image2](https://github.com/emreturan00/ShoppingApp/assets/93795815/5223aea0-3430-41fb-8440-dd2642a13581)
+
+![image12](https://github.com/emreturan00/ShoppingApp/assets/93795815/f8a3532a-76c7-477a-b043-c798e5b2db46)
+
+----------------------------------------------------------------------------------------
 to use the application, 
 make sure mysql database has needed tables that can be created with below queries:
 
